@@ -11,11 +11,13 @@ import 'package:guardwell/domain/repositories/contact_repository.dart';
 import 'package:guardwell/domain/usecases/location/get_current_location.dart';
 import 'package:guardwell/domain/usecases/contacts/get_emergency_contacts.dart';
 import 'package:guardwell/domain/usecases/send_sos_message.dart';
+import 'package:guardwell/injection_container.dart' as di;
 import 'package:guardwell/presentation/bloc/contacts/contacts_bloc.dart';
 import 'package:guardwell/presentation/bloc/location/location_bloc.dart';
 import 'package:guardwell/presentation/bloc/location/location_event.dart';
 import 'package:guardwell/presentation/bloc/sos/sos_cubit.dart';
 import 'package:guardwell/presentation/bloc/system_contacts/system_contacts_cubit.dart';
+import 'package:guardwell/presentation/screens/auth/splash_screen.dart';
 import 'package:guardwell/presentation/screens/home_screen.dart';
 import 'package:guardwell/presentation/screens/setup_screens/setup_contact_screen.dart';
 import 'package:guardwell/presentation/screens/setup_screens/setup_language_screen.dart';
@@ -26,6 +28,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await HiveService.init();
+  await di.init();
   runApp(
     EasyLocalization(
       supportedLocales: const [
@@ -95,7 +98,7 @@ class MyApp extends StatelessWidget {
               theme: lightTheme,
               // darkTheme: darkTheme,
               // themeMode: ThemeMode.system,
-              home: const AppInitializer(),
+              home: const SplashScreen() ,
             );
           },
         ),

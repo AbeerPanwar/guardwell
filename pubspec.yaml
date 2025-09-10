@@ -48,6 +48,8 @@ dependencies:
   easy_localization: ^3.0.7
   shared_preferences: ^2.3.2
   envied: ^1.2.1
+  http: ^1.5.0
+  fpdart: ^1.1.1
 
 dev_dependencies:
   flutter_test:
