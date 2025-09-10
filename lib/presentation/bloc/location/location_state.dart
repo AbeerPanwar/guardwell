@@ -1,0 +1,30 @@
+import 'package:equatable/equatable.dart';
+import 'package:geolocator/geolocator.dart';
+
+abstract class LocationState extends Equatable {
+  const LocationState();
+  @override
+  List<Object?> get props => [];
+}
+
+class LocationInitial extends LocationState {
+  const LocationInitial();
+}
+
+class LocationLoading extends LocationState {
+  const LocationLoading();
+}
+
+class LocationLoaded extends LocationState {
+  final Position position;
+  const LocationLoaded(this.position);
+  @override
+  List<Object?> get props => [position];
+}
+
+class LocationFailure extends LocationState {
+  final String message;
+  const LocationFailure(this.message);
+  @override
+  List<Object?> get props => [message];
+}
