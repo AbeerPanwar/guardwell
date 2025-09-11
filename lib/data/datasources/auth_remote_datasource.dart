@@ -11,15 +11,15 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final http.Client client;
   final String baseUrl;
 
-  AuthRemoteDataSourceImpl({
+  const AuthRemoteDataSourceImpl({
     required this.client,
-    this.baseUrl = 'https://safe-tourist-backend.onrender.com',
+    required this.baseUrl,
   });
 
   @override
   Future<UserModel> login(String email, String password) async {
     final response = await client.post(
-      Uri.parse('\$baseUrl/auth/login'),
+      Uri.parse('$baseUrl/api/auth/login'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
         'email': email,
@@ -40,7 +40,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<UserModel> register(String email, String password, String name) async {
     final response = await client.post(
-      Uri.parse('\$baseUrl/auth/register'),
+      Uri.parse('$baseUrl/api/auth/register'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
         'email': email,

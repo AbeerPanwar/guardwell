@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:guardwell/core/network/network_info.dart';
 import 'package:guardwell/data/datasources/aut_local_datasource.dart';
 import 'package:guardwell/data/datasources/auth_remote_datasource.dart';
@@ -52,6 +53,7 @@ Future<void> init() async {
   getIt.registerLazySingleton<AuthRemoteDataSource>(
     () => AuthRemoteDataSourceImpl(
       client: getIt.get<http.Client>(),
+      baseUrl: dotenv.env['NODE_JS_BACKEND_URI']!,
     ),
   );
 

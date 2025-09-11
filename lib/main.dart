@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:guardwell/core/constants.dart';
 import 'package:guardwell/data/repositories/contact_repository_impl.dart';
 import 'package:guardwell/data/repositories/location_repository_impl.dart';
@@ -28,6 +29,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await HiveService.init();
+  await dotenv.load();
   await di.init();
   runApp(
     EasyLocalization(
