@@ -73,6 +73,7 @@ class MyApp extends StatelessWidget {
           BlocProvider<LocationBloc>(
             create: (context) => LocationBloc(
               getCurrentLocation: GetCurrentLocation(locationRepository),
+              locationRepository,
             )..add(const LoadLocation()),
           ),
           BlocProvider<ContactsBloc>(
@@ -100,7 +101,7 @@ class MyApp extends StatelessWidget {
               theme: lightTheme,
               // darkTheme: darkTheme,
               // themeMode: ThemeMode.system,
-              home: const SplashScreen() ,
+              home: const SplashScreen(),
             );
           },
         ),
@@ -133,9 +134,7 @@ class _AppInitializerState extends State<AppInitializer> {
     if (!hasLanguage) {
       if (mounted) {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (_) => const LanguageSelectionScreen(),
-          ),
+          MaterialPageRoute(builder: (_) => const LanguageSelectionScreen()),
         );
       }
       return;

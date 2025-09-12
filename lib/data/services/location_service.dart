@@ -24,6 +24,15 @@ class LocationService {
     );
   }
 
+  Stream<Position> getLiveLocation() {
+    return Geolocator.getPositionStream(
+      locationSettings: const LocationSettings(
+        accuracy: LocationAccuracy.high,
+        distanceFilter: 5, // meters before update
+      ),
+    );
+  }
+
   Future<bool> isLocationServiceEnabled() => Geolocator.isLocationServiceEnabled();
   
   Future<LocationPermission> checkPermission() => Geolocator.checkPermission();

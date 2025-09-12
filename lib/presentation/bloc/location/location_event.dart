@@ -13,3 +13,7 @@ class LoadLocation extends LocationEvent {
 class RefreshLocation extends LocationEvent {
   const RefreshLocation();
 }
+
+class StartLiveLocationEvent extends LocationEvent {}
+
+class StopLiveLocationEvent extends LocationEvent {}

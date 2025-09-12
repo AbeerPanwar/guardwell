@@ -28,3 +28,8 @@ class LocationFailure extends LocationState {
   @override
   List<Object?> get props => [message];
 }
+
+class LiveLocationUpdated extends LocationState {
+  final Position position;
+  coLiveLocationUpdated(this.position);
+}

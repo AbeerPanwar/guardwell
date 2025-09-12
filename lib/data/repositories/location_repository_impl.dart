@@ -18,4 +18,7 @@ class LocationRepositoryImpl implements LocationRepository {
 
   @override
   Future<LocationPermission> requestLocationPermission() => locationService.requestPermission();
+  
+  @override
+  Stream<Position> getLiveLocation() => locationService.getLiveLocation();
 }
