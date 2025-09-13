@@ -1,13 +1,14 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:guardwell/core/network/network_info.dart';
 import 'package:guardwell/data/datasources/aut_local_datasource.dart';
 import 'package:guardwell/data/datasources/auth_remote_datasource.dart';
 import 'package:guardwell/data/repositories/auth_repository_impl.dart';
 import 'package:guardwell/domain/repositories/auth_repository.dart';
 import 'package:guardwell/domain/usecases/auth/login_usecase.dart';
+import 'package:guardwell/domain/usecases/auth/logout_usecase.dart';
 import 'package:guardwell/domain/usecases/auth/register_usecase.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
+import 'package:guardwell/presentation/bloc/Auth/auth_cubit.dart';
 
 class GetIt {
   static final GetIt _instance = GetIt._internal();
@@ -36,25 +37,19 @@ class GetIt {
 final getIt = GetIt();
 
 Future<void> init() async {
-  // External dependencies
-  final sharedPreferences = await SharedPreferences.getInstance();
-  getIt.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
-  getIt.registerLazySingleton<http.Client>(() => http.Client());
-
   // Core
   getIt.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl());
 
   // Data sources
   getIt.registerLazySingleton<AuthLocalDataSource>(
-    () => AuthLocalDataSourceImpl(
-      sharedPreferences: getIt.get<SharedPreferences>(),
-    ),
+    () => AuthLocalDataSourceImpl(secureStorage: const FlutterSecureStorage()),
+  );
+
+  getIt.registerLazySingleton<AuthLocalDataSourceImpl>(
+    () => AuthLocalDataSourceImpl(secureStorage: const FlutterSecureStorage()),
   );
   getIt.registerLazySingleton<AuthRemoteDataSource>(
-    () => AuthRemoteDataSourceImpl(
-      client: getIt.get<http.Client>(),
-      baseUrl: dotenv.env['NODE_JS_BACKEND_URI']!,
-    ),
+    () => AuthRemoteDataSourceImpl(baseUrl: dotenv.env['NODE_JS_BACKEND_URI']!),
   );
 
   // Repository
@@ -75,5 +70,18 @@ Future<void> init() async {
   );
   getIt.registerLazySingleton<RegisterUseCase>(
     () => RegisterUseCase(getIt.get<AuthRepository>()),
+  );
+  getIt.registerLazySingleton<LogoutUseCase>(
+    () => LogoutUseCase(getIt.get<AuthRepository>()),
+  );
+
+  // AuthCubit
+  getIt.registerLazySingleton<AuthCubit>(
+    () => AuthCubit(
+      getIt.get<LoginUseCase>(),
+      getIt.get<RegisterUseCase>(),
+      getIt.get<LogoutUseCase>(),
+      getIt.get<AuthLocalDataSourceImpl>(),
+    ),
   );
 }

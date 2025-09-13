@@ -3,7 +3,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 
 class LocationService {
-
   final String baseUrl;
   final String token;
   String? activeAlertId;
@@ -27,8 +26,11 @@ class LocationService {
     if (response.statusCode == 201) {
       final data = jsonDecode(response.body);
       activeAlertId = data['alertId'];
+      print('hello hello $activeAlertId');
     } else {
-      throw Exception("Failed to send SOS: ${response.body}");
+      throw Exception(
+        "Failed to send SOS: ${response.statusCode} ${response.body}",
+      );
     }
   }
 
@@ -48,8 +50,14 @@ class LocationService {
       }),
     );
 
-    if (response.statusCode != 200) {
-      throw Exception("Failed to update SOS: ${response.body}");
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      activeAlertId = data['message'];
+      print('hello message  $activeAlertId');
+    }else{
+      throw Exception(
+        "Failed to update SOS: ${response.statusCode}  ${response.body}",
+      );
     }
   }
 
@@ -85,9 +93,11 @@ class LocationService {
     );
   }
 
-  Future<bool> isLocationServiceEnabled() => Geolocator.isLocationServiceEnabled();
-  
+  Future<bool> isLocationServiceEnabled() =>
+      Geolocator.isLocationServiceEnabled();
+
   Future<LocationPermission> checkPermission() => Geolocator.checkPermission();
-  
-  Future<LocationPermission> requestPermission() => Geolocator.requestPermission();
+
+  Future<LocationPermission> requestPermission() =>
+      Geolocator.requestPermission();
 }

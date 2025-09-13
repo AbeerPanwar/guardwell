@@ -1,45 +1,36 @@
-import 'dart:convert';
-import 'package:guardwell/data/models/user_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 abstract class AuthLocalDataSource {
-  Future<UserModel?> getLastUser();
-  Future<void> cacheUser(UserModel user);
-  Future<void> clearUser();
-  Future<bool> isUserCached();
+  Future<String?> getToken();
+  Future<void> saveToken(String token);
+  Future<void> clearToken();
+  Future<bool> hasToken();
 }
 
 class AuthLocalDataSourceImpl implements AuthLocalDataSource {
-  final SharedPreferences sharedPreferences;
-  
-  static const String cachedUser = 'CACHED_USER';
+  final FlutterSecureStorage secureStorage;
 
-  AuthLocalDataSourceImpl({required this.sharedPreferences});
+  static const String _tokenKey = "AUTH_TOKEN";
+
+  AuthLocalDataSourceImpl({required this.secureStorage});
 
   @override
-  Future<UserModel?> getLastUser() async {
-    final jsonString = sharedPreferences.getString(cachedUser);
-    if (jsonString != null) {
-      return UserModel.fromJson(json.decode(jsonString));
-    }
-    return null;
+  Future<String?> getToken() async {
+    return await secureStorage.read(key: _tokenKey);
   }
 
   @override
-  Future<void> cacheUser(UserModel user) async {
-    await sharedPreferences.setString(
-      cachedUser, 
-      json.encode(user.toJson()),
-    );
+  Future<void> saveToken(String token) async {
+    await secureStorage.write(key: _tokenKey, value: token);
   }
 
   @override
-  Future<void> clearUser() async {
-    await sharedPreferences.remove(cachedUser);
+  Future<void> clearToken() async {
+    await secureStorage.delete(key: _tokenKey);
   }
 
   @override
-  Future<bool> isUserCached() async {
-    return sharedPreferences.containsKey(cachedUser);
+  Future<bool> hasToken() async {
+    return await secureStorage.read(key: _tokenKey) != null;
   }
 }

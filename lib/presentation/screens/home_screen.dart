@@ -203,6 +203,7 @@ class _HomeScreenState extends State<HomeScreen> {
               BlocListener<LocationBloc, LocationState>(
                 listener: (context, state) {
                   if (state is SosActiveState) {
+                    print('sos state activated');
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -218,8 +219,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     onPressed: () {
                       final locState = context.read<LocationBloc>().state;
                       if (locState is LocationLoaded) {
-                        context.read<SosCubit>().send(locState.position);
                         context.read<SosCubit>().sendSos();
+                        context.read<SosCubit>().send(locState.position);
                       } else {
                         _showErrorDialog(
                           'Location not available. Please wait for location to be determined.',
