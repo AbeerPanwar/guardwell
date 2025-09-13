@@ -59,7 +59,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final contactRepository = ContactRepositoryImpl(ContactService());
-    final locationRepository = LocationRepositoryImpl(LocationService());
+    final locationRepository = LocationRepositoryImpl(
+      LocationService(baseUrl: dotenv.env['NODE_JS_BACKEND_URI']!, token: ''),
+    );
 
     return MultiRepositoryProvider(
       providers: [
@@ -85,6 +87,10 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider<SosCubit>(
             create: (context) => SosCubit(
+              LocationBloc(
+                locationRepository,
+                getCurrentLocation: GetCurrentLocation(locationRepository),
+              ),
               getEmergencyContacts: GetEmergencyContacts(contactRepository),
               sendSosMessage: SendSosMessage(),
             ),

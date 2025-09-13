@@ -14,6 +14,10 @@ class SosSending extends SosState {
   const SosSending();
 }
 
+class SosActive extends SosState {}
+
+class SosStopped extends SosState {}
+
 class SosSuccess extends SosState {
   final int recipients;
   const SosSuccess(this.recipients);

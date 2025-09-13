@@ -9,6 +9,7 @@ import 'package:guardwell/presentation/bloc/location/location_state.dart';
 import 'package:guardwell/presentation/bloc/sos/sos_cubit.dart';
 import 'package:guardwell/presentation/bloc/sos/sos_state.dart';
 import 'package:guardwell/presentation/screens/settings_screen.dart';
+import 'package:guardwell/presentation/screens/sos_tracking_screen.dart';
 import 'package:guardwell/presentation/widgets/sos_button.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -199,19 +200,34 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              BlocBuilder<SosCubit, SosState>(
-                builder: (context, sosState) => SosButton(
-                  onPressed: () {
-                    final locState = context.read<LocationBloc>().state;
-                    if (locState is LocationLoaded) {
-                      context.read<SosCubit>().send(locState.position);
-                    } else {
-                      _showErrorDialog(
-                        'Location not available. Please wait for location to be determined.',
-                      );
-                    }
-                  },
-                  isLoading: sosState is SosSending,
+              BlocListener<LocationBloc, LocationState>(
+                listener: (context, state) {
+                  if (state is SosActiveState) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => SosTrackingScreen(
+                          initialPosition: state.initialPosition,
+                        ),
+                      ),
+                    );
+                  }
+                },
+                child: BlocBuilder<SosCubit, SosState>(
+                  builder: (context, sosState) => SosButton(
+                    onPressed: () {
+                      final locState = context.read<LocationBloc>().state;
+                      if (locState is LocationLoaded) {
+                        context.read<SosCubit>().send(locState.position);
+                        context.read<SosCubit>().sendSos();
+                      } else {
+                        _showErrorDialog(
+                          'Location not available. Please wait for location to be determined.',
+                        );
+                      }
+                    },
+                    isLoading: sosState is SosSending,
+                  ),
                 ),
               ),
             ],

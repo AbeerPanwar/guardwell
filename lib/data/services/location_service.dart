@@ -1,6 +1,58 @@
+import 'dart:convert';
 import 'package:geolocator/geolocator.dart';
+import 'package:http/http.dart' as http;
 
 class LocationService {
+
+  final String baseUrl;
+  final String token;
+  String? activeAlertId;
+
+  LocationService({required this.baseUrl, required this.token});
+
+  Future<void> sendSos(Position position) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/api/alert/sos'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode({
+        'latitude': position.latitude,
+        'longitude': position.longitude,
+        'timestamp': DateTime.now().toUtc().toIso8601String(),
+      }),
+    );
+
+    if (response.statusCode == 201) {
+      final data = jsonDecode(response.body);
+      activeAlertId = data['alertId'];
+    } else {
+      throw Exception("Failed to send SOS: ${response.body}");
+    }
+  }
+
+  Future<void> updateSos(Position position) async {
+    if (activeAlertId == null) return;
+
+    final response = await http.post(
+      Uri.parse('$baseUrl/api/alert/update'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode({
+        'latitude': position.latitude,
+        'longitude': position.longitude,
+        'timestamp': DateTime.now().toUtc().toIso8601String(),
+      }),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception("Failed to update SOS: ${response.body}");
+    }
+  }
+
   Future<Position> getCurrentPosition() async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {

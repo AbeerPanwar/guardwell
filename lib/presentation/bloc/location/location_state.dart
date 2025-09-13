@@ -31,5 +31,12 @@ class LocationFailure extends LocationState {
 
 class LiveLocationUpdated extends LocationState {
   final Position position;
-  coLiveLocationUpdated(this.position);
+  const LiveLocationUpdated(this.position);
 }
+
+class SosActiveState extends LocationState {
+  final Position initialPosition;
+  const SosActiveState(this.initialPosition);
+}
+
+class SosStoppedState extends LocationState {}
