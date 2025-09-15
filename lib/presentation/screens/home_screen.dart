@@ -204,6 +204,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   onPressed: () {
                     final locState = context.read<LocationBloc>().state;
                     if (locState is LocationLoaded) {
+                      context.read<SosCubit>().sendSos();
                       context.read<SosCubit>().send(locState.position);
                     } else {
                       _showErrorDialog(

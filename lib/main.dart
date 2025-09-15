@@ -1,21 +1,29 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:guardwell/core/constants.dart';
+import 'package:guardwell/data/datasources/aut_local_datasource.dart';
 import 'package:guardwell/data/repositories/contact_repository_impl.dart';
 import 'package:guardwell/data/repositories/location_repository_impl.dart';
 import 'package:guardwell/data/services/contact_service.dart';
 import 'package:guardwell/data/services/hive_service.dart';
 import 'package:guardwell/data/services/location_service.dart';
 import 'package:guardwell/domain/repositories/contact_repository.dart';
+import 'package:guardwell/domain/usecases/auth/login_usecase.dart';
+import 'package:guardwell/domain/usecases/auth/logout_usecase.dart';
+import 'package:guardwell/domain/usecases/auth/register_usecase.dart';
 import 'package:guardwell/domain/usecases/location/get_current_location.dart';
 import 'package:guardwell/domain/usecases/contacts/get_emergency_contacts.dart';
 import 'package:guardwell/domain/usecases/send_sos_message.dart';
+import 'package:guardwell/injection_container.dart' as di;
+import 'package:guardwell/presentation/bloc/Auth/auth_cubit.dart';
 import 'package:guardwell/presentation/bloc/contacts/contacts_bloc.dart';
 import 'package:guardwell/presentation/bloc/location/location_bloc.dart';
 import 'package:guardwell/presentation/bloc/location/location_event.dart';
 import 'package:guardwell/presentation/bloc/sos/sos_cubit.dart';
 import 'package:guardwell/presentation/bloc/system_contacts/system_contacts_cubit.dart';
+import 'package:guardwell/presentation/screens/auth/splash_screen.dart';
 import 'package:guardwell/presentation/screens/home_screen.dart';
 import 'package:guardwell/presentation/screens/setup_screens/setup_contact_screen.dart';
 import 'package:guardwell/presentation/screens/setup_screens/setup_language_screen.dart';
@@ -26,6 +34,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await HiveService.init();
+  await SharedPreferences.getInstance();
+  await dotenv.load();
+  await di.init();
   runApp(
     EasyLocalization(
       supportedLocales: const [
@@ -43,7 +54,15 @@ void main() async {
       ],
       path: 'assets/translations', // <-- translations folder
       fallbackLocale: const Locale('en'),
-      child: MyApp(),
+      child: BlocProvider(
+        create: (context) => AuthCubit(
+          di.getIt.get<LoginUseCase>(),
+          di.getIt.get<RegisterUseCase>(),
+          di.getIt.get<LogoutUseCase>(),
+          di.getIt.get<AuthLocalDataSourceImpl>(),
+        )..checkAuthStatus(),
+        child: MyApp(),
+      ),
     ),
   );
 }
@@ -54,52 +73,77 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final contactRepository = ContactRepositoryImpl(ContactService());
-    final locationRepository = LocationRepositoryImpl(LocationService());
 
-    return MultiRepositoryProvider(
-      providers: [
-        RepositoryProvider<ContactRepository>.value(value: contactRepository),
-        RepositoryProvider<LocationRepositoryImpl>.value(
-          value: locationRepository,
-        ),
-      ],
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider<LocationBloc>(
-            create: (context) => LocationBloc(
-              getCurrentLocation: GetCurrentLocation(locationRepository),
-            )..add(const LoadLocation()),
-          ),
-          BlocProvider<ContactsBloc>(
-            create: (context) => ContactsBloc(repository: contactRepository),
-          ),
-          BlocProvider<SystemContactsCubit>(
-            create: (context) =>
-                SystemContactsCubit(repository: contactRepository),
-          ),
-          BlocProvider<SosCubit>(
-            create: (context) => SosCubit(
-              getEmergencyContacts: GetEmergencyContacts(contactRepository),
-              sendSosMessage: SendSosMessage(),
+    return BlocBuilder<AuthCubit, AuthState>(
+      builder: (context, state) {
+        if (state is AuthAuthenticated) {
+          final token = state.token;
+          final locationRepository = LocationRepositoryImpl(
+            LocationService(
+              baseUrl: dotenv.env['NODE_JS_BACKEND_URI']!,
+              token: token,
             ),
-          ),
-        ],
-        child: Builder(
-          builder: (context) {
-            return MaterialApp(
-              title: AppConstants.appName,
-              debugShowCheckedModeBanner: false,
-              localizationsDelegates: context.localizationDelegates,
-              supportedLocales: context.supportedLocales,
-              locale: context.locale,
-              theme: lightTheme,
-              // darkTheme: darkTheme,
-              // themeMode: ThemeMode.system,
-              home: const AppInitializer(),
-            );
-          },
-        ),
-      ),
+          );
+
+          return MultiRepositoryProvider(
+            providers: [
+              RepositoryProvider<ContactRepository>.value(
+                value: contactRepository,
+              ),
+              RepositoryProvider<LocationRepositoryImpl>.value(
+                value: locationRepository,
+              ),
+            ],
+            child: MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (_) => LocationBloc(
+                    getCurrentLocation: GetCurrentLocation(locationRepository),
+                    locationRepository,
+                  )..add(const LoadLocation()),
+                ),
+                BlocProvider(
+                  create: (_) => ContactsBloc(repository: contactRepository),
+                ),
+                BlocProvider(
+                  create: (_) =>
+                      SystemContactsCubit(repository: contactRepository),
+                ),
+                BlocProvider(
+                  create: (_) => SosCubit(
+                    LocationBloc(
+                      locationRepository,
+                      getCurrentLocation: GetCurrentLocation(
+                        locationRepository,
+                      ),
+                    ),
+                    getEmergencyContacts: GetEmergencyContacts(
+                      contactRepository,
+                    ),
+                    sendSosMessage: SendSosMessage(),
+                  ),
+                ),
+              ],
+              child: MaterialApp(
+                title: AppConstants.appName,
+                debugShowCheckedModeBanner: false,
+                localizationsDelegates: context.localizationDelegates,
+                supportedLocales: context.supportedLocales,
+                locale: context.locale,
+                theme: lightTheme,
+                home: const SplashScreen(),
+              ),
+            ),
+          );
+        }
+
+        // ✅ handle unauthenticated, initial & loading in one place
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: lightTheme,
+          home: const SplashScreen(),
+        );
+      },
     );
   }
 }
@@ -127,11 +171,14 @@ class _AppInitializerState extends State<AppInitializer> {
 
     if (!hasLanguage) {
       if (mounted) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (_) => const LanguageSelectionScreen(),
-          ),
-        );
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (_) =>
+                  const LanguageSelectionScreen(isFirstLaunch: true),
+            ),
+          );
+        });
       }
       return;
     }

@@ -28,3 +28,15 @@ class LocationFailure extends LocationState {
   @override
   List<Object?> get props => [message];
 }
+
+class LiveLocationUpdated extends LocationState {
+  final Position position;
+  const LiveLocationUpdated(this.position);
+}
+
+class SosActiveState extends LocationState {
+  final Position initialPosition;
+  const SosActiveState(this.initialPosition);
+}
+
+class SosStoppedState extends LocationState {}
