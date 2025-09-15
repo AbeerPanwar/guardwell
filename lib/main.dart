@@ -138,7 +138,11 @@ class MyApp extends StatelessWidget {
         }
 
         // ✅ handle unauthenticated, initial & loading in one place
-        return const MaterialApp(home: SplashScreen());
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: lightTheme,
+          home: const SplashScreen(),
+        );
       },
     );
   }
@@ -167,9 +171,14 @@ class _AppInitializerState extends State<AppInitializer> {
 
     if (!hasLanguage) {
       if (mounted) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const LanguageSelectionScreen()),
-        );
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (_) =>
+                  const LanguageSelectionScreen(isFirstLaunch: true),
+            ),
+          );
+        });
       }
       return;
     }

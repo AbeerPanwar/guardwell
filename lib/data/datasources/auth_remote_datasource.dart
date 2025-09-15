@@ -27,7 +27,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
-      print(data);
       return data["token"];
     } else {
       throw Exception('Login failed');
@@ -49,7 +48,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       final data = json.decode(response.body);
-      print(data);
       return data["token"];
     } else {
       throw Exception('Registration failed');
