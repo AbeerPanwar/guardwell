@@ -24,7 +24,6 @@ migrate_working_dir/
 #.vscode/
 
 .env
-lib/env.g.dart
 
 # Flutter/Dart/Pub related
 **/doc/api/

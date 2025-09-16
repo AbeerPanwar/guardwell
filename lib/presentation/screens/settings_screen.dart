@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:guardwell/presentation/bloc/Auth/auth_cubit.dart';
 import 'package:guardwell/presentation/screens/contact_management_screen.dart';
 import 'package:guardwell/presentation/screens/language_management_screen.dart';
 import 'package:guardwell/presentation/widgets/settings_tile.dart';
@@ -89,7 +91,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
               icon: Icons.logout_outlined,
               title: 'logout'.tr(),
               subtitle: 'logout_sub'.tr(),
-              onTap: () {},
+              onTap: () {
+                context.read<AuthCubit>().logout();
+              },
             ),
           ],
         ),
