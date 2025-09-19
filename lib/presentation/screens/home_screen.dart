@@ -11,6 +11,7 @@ import 'package:guardwell/data/datasources/aut_local_datasource.dart';
 import 'package:guardwell/data/repositories/location_repository_impl.dart';
 import 'package:guardwell/data/services/location_service.dart';
 import 'package:guardwell/domain/usecases/location/get_current_location.dart';
+import 'package:guardwell/presentation/bloc/get_data/getdata_cubit.dart';
 // import 'package:guardwell/data/services/background_service.dart';
 import 'package:guardwell/presentation/bloc/location/location_bloc.dart';
 import 'package:guardwell/presentation/bloc/location/location_event.dart';
@@ -30,6 +31,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   GoogleMapController? _mapController;
+  @override
+  void initState() {
+    super.initState();
+    context.read<GetDataCubit>().fetchUser();
+    print('init state ..............');
+  }
 
   void _showErrorDialog(String message) {
     showDialog(
@@ -56,9 +63,21 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         actionsPadding: EdgeInsets.only(right: 10),
         backgroundColor: Colors.transparent,
-        title: Text(
-          'Hello, Abeer',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+        title: BlocConsumer<GetDataCubit, GetDataState>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            if (state is GetDataLoaded) {
+              final fullName = state.props[0]['name'].split(' ');
+              return Text(
+                'Hello, ${fullName.first}',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              );
+            }
+            return Text('');
+          },
         ),
         leading: Padding(
           padding: const EdgeInsets.only(left: 16),

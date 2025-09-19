@@ -5,6 +5,7 @@ import 'package:guardwell/presentation/bloc/Auth/auth_cubit.dart';
 import 'package:guardwell/presentation/screens/settings/contact_management_screen.dart';
 import 'package:guardwell/presentation/screens/settings/kyc_verification.dart';
 import 'package:guardwell/presentation/screens/settings/language_management_screen.dart';
+import 'package:guardwell/presentation/screens/settings/profile.dart';
 import 'package:guardwell/presentation/widgets/settings_tile.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -51,7 +52,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
               icon: Icons.person,
               title: 'update_profile'.tr(),
               subtitle: 'update_profile_sub'.tr(),
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const ProfilePage()),
+                );
+              },
             ),
             SizedBox(height: 30),
             SettingsTile(
@@ -94,13 +99,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
               },
             ),
             SizedBox(height: 30),
-            SettingsTile(
-              icon: Icons.location_on_rounded,
-              title: 'show_my_location'.tr(),
-              subtitle: 'show_my_location_sub'.tr(),
-              onTap: () {},
-            ),
-            SizedBox(height: 30),
+            // SettingsTile(
+            //   icon: Icons.location_on_rounded,
+            //   title: 'show_my_location'.tr(),
+            //   subtitle: 'show_my_location_sub'.tr(),
+            //   onTap: () {},
+            // ),
+            // SizedBox(height: 30),
             SettingsTile(
               icon: Icons.logout_outlined,
               title: 'logout'.tr(),

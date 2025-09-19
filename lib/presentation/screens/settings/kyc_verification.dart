@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:guardwell/domain/entities/tourist.dart';
+import 'package:guardwell/presentation/bloc/get_data/getdata_cubit.dart';
 import 'package:guardwell/presentation/bloc/tourist/tourist_cubit.dart';
 
 class KycVerification extends StatefulWidget {
@@ -71,7 +72,7 @@ class _KycVerificationState extends State<KycVerification> {
           ),
         ),
         title: const Text(
-          "KYC Verification",
+          "Tourist Registration",
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
@@ -80,250 +81,307 @@ class _KycVerificationState extends State<KycVerification> {
         ),
         backgroundColor: Colors.transparent,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: BlocConsumer<TouristCubit, TouristState>(
-            listener: (context, state) {
-              if (state is TouristSuccess) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("Tourist created successfully")),
-                );
-              } else if (state is TouristFailure) {
-                ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(SnackBar(content: Text(state.message)));
-              }
-            },
-            builder: (context, state) {
-              if (state is TouristLoading) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              if (state is TouristSuccess) {
-                return Column(children: [Text('verified')]);
-              }
-              return Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    const SizedBox(height: 16),
-                    _buildSectionHeader('Personal Information'),
-                    SizedBox(
-                      width: 300,
-                      child: Text(
-                        'Name must be same as in your Passport or Aadhar Card',
-                        style: TextStyle(color: Colors.grey.shade900),
-                        textAlign: TextAlign.center,
+      body: BlocConsumer<GetDataCubit, GetDataState>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          if (state.props[0]['ipfs_cid'] != null) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.verified_rounded,
+                    size: 64,
+                    color: Colors.green.shade700,
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    'Tourist Registeration',
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      color: Theme.of(context).colorScheme.outline,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    'You have already created your tourist id',
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.outline,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            );
+          }
+          return SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: BlocConsumer<TouristCubit, TouristState>(
+                listener: (context, state) {
+                  if (state is TouristSuccess) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Tourist created successfully"),
                       ),
-                    ),
-                    const SizedBox(height: 32),
-                    _buildTextField(
-                      controller: _nameController,
-                      label: 'Full Name',
-                      icon: Icons.person_outline,
-                      isRequired: true,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your full name';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 16),
-                    _buildTextField(
-                      controller: _dobController,
-                      label: 'Date of Birth (YYYY-MM-DD)',
-                      icon: Icons.calendar_today_outlined,
-                      isRequired: true,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your date of birth';
-                        }
-                        if (!RegExp(r'^\d{4}-\d{2}-\d{2}$').hasMatch(value)) {
-                          return 'Please use YYYY-MM-DD format';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 32),
-                    _buildSectionHeader('Identity Documents'),
-                    Text(
-                      '(Provide atleast one of the following...)',
-                      style: TextStyle(color: Colors.grey.shade900),
-                    ),
-                    const SizedBox(height: 28),
-                    _buildTextField(
-                      controller: _passportController,
-                      label: 'Passport Number',
-                      icon: Icons.description_outlined,
-                      isRequired: false,
-                    ),
-                    const SizedBox(height: 16),
-                    _buildTextField(
-                      controller: _aadhaarController,
-                      label: 'Aadhar Number',
-                      icon: Icons.credit_card_outlined,
-                      isRequired: false,
-                    ),
-                    const SizedBox(height: 32),
-                    _buildSectionHeader('Travel Information'),
-                    const SizedBox(height: 16),
+                    );
+                  } else if (state is TouristFailure) {
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text(state.message)));
+                  }
+                },
+                builder: (context, state) {
+                  if (state is TouristLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (state is TouristSuccess) {
+                    return Column(
+                      children: [
+                        Center(
+                          child: Column(
+                            children: [Text('Tourist Registered Successfully')],
+                          ),
+                        ),
+                      ],
+                    );
+                  }
+                  return Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 16),
+                        _buildSectionHeader('Personal Information'),
+                        SizedBox(
+                          width: 300,
+                          child: Text(
+                            'Name must be same as in your Passport or Aadhar Card',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.grey.shade900),
+                          ),
+                        ),
+                        const SizedBox(height: 25),
+                        _buildTextField(
+                          controller: _nameController,
+                          label: 'Full Name',
+                          icon: Icons.person,
+                          isRequired: true,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your full name';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 16),
+                        _buildTextField(
+                          controller: _dobController,
+                          label: 'Date of Birth (YYYY-MM-DD)',
+                          icon: Icons.calendar_month_rounded,
+                          isRequired: true,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your date of birth';
+                            }
+                            if (!RegExp(
+                              r'^\d{4}-\d{2}-\d{2}$',
+                            ).hasMatch(value)) {
+                              return 'Please use YYYY-MM-DD format';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 32),
+                        _buildSectionHeader('Identity Documents'),
+                        Text(
+                          'Provide atleast one of the following...',
+                          style: TextStyle(color: Colors.grey.shade900),
+                        ),
+                        const SizedBox(height: 25),
+                        _buildTextField(
+                          controller: _passportController,
+                          label: 'Passport Number',
+                          icon: Icons.edit_document,
+                          isRequired: false,
+                        ),
+                        const SizedBox(height: 16),
+                        _buildTextField(
+                          controller: _aadhaarController,
+                          label: 'Aadhar Number',
+                          icon: Icons.credit_card_rounded,
+                          isRequired: false,
+                        ),
+                        const SizedBox(height: 32),
+                        _buildSectionHeader('Travel Information'),
 
-                    // Itinerary Section
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.surfaceContainer,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Travel Itinerary',
-                            style: Theme.of(context).textTheme.titleMedium
-                                ?.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 16,
-                                ),
+                        // Itinerary Section
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.surfaceContainer,
+                            borderRadius: BorderRadius.circular(12),
                           ),
-                          const SizedBox(height: 6),
-                          Row(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Expanded(
-                                child: TextField(
-                                  controller: _itineraryController,
-                                  decoration: InputDecoration(
-                                    hintText: 'Add destination (e.g., Delhi)',
-                                    hintStyle: TextStyle(
-                                      color: Colors.grey.shade700,
+                              Text(
+                                'Travel Itinerary',
+                                style: Theme.of(context).textTheme.titleMedium
+                                    ?.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
                                     ),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                      borderSide: BorderSide(
-                                        color: Theme.of(
-                                          context,
-                                        ).colorScheme.outline,
-                                      ),
-                                    ),
-                                    contentPadding: const EdgeInsets.symmetric(
-                                      horizontal: 16,
-                                      vertical: 12,
-                                    ),
-                                  ),
-                                ),
                               ),
-                              const SizedBox(width: 12),
-                              ElevatedButton(
-                                onPressed: _addItineraryItem,
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Theme.of(
-                                    context,
-                                  ).colorScheme.primary,
-                                  foregroundColor: Theme.of(
-                                    context,
-                                  ).colorScheme.onPrimary,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                ),
-                                child: const Icon(Icons.add),
-                              ),
-                            ],
-                          ),
-                          if (_itinerary.isNotEmpty) ...[
-                            const SizedBox(height: 12),
-                            SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Wrap(
-                                spacing: 8,
-                                runSpacing: 8,
-                                children: _itinerary
-                                    .map(
-                                      (destination) => Chip(
-                                        side: BorderSide(
-                                          color: Colors.green.shade100,
+                              const SizedBox(height: 6),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: TextField(
+                                      controller: _itineraryController,
+                                      decoration: InputDecoration(
+                                        hintText:
+                                            'Add destination (e.g., Delhi)',
+                                        hintStyle: TextStyle(
+                                          color: Colors.grey.shade700,
                                         ),
-                                        color: WidgetStatePropertyAll(
-                                          Colors.green.shade100,
-                                        ),
-                                        label: Text(
-                                          destination,
-                                          style: TextStyle(
-                                            color: Colors.green.shade800,
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            8,
+                                          ),
+                                          borderSide: BorderSide(
+                                            color: Theme.of(
+                                              context,
+                                            ).colorScheme.outline,
                                           ),
                                         ),
-                                        deleteIcon: Icon(
-                                          Icons.close,
-                                          size: 18,
-                                          color: Colors.green.shade800,
-                                        ),
-                                        onDeleted: () =>
-                                            _removeItineraryItem(destination),
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                              horizontal: 16,
+                                              vertical: 12,
+                                            ),
                                       ),
-                                    )
-                                    .toList(),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  ElevatedButton(
+                                    onPressed: _addItineraryItem,
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Theme.of(
+                                        context,
+                                      ).colorScheme.primary,
+                                      foregroundColor: Theme.of(
+                                        context,
+                                      ).colorScheme.onPrimary,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                    ),
+                                    child: const Icon(Icons.add),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
-                        ],
-                      ),
-                    ),
-
-                    const SizedBox(height: 16),
-                    const SizedBox(height: 20),
-                    GestureDetector(
-                      onTap: () {
-                        if (_formKey.currentState!.validate() &&
-                            (_passportController.text.trim().isNotEmpty ||
-                                _aadhaarController.text.trim().isNotEmpty)) {
-                          final tourist = Tourist(
-                            fullName: _nameController.text,
-                            dob: _dobController.text,
-                            passport: _passportController.text.trim().isNotEmpty
-                                ? _passportController.text.trim()
-                                : null,
-                            aadhaar: _aadhaarController.text.trim().isNotEmpty
-                                ? _aadhaarController.text.trim()
-                                : null,
-                            itinerary: _itinerary.isNotEmpty
-                                ? _itinerary
-                                : null,
-                          );
-                          context.read<TouristCubit>().create(tourist);
-                        } else {
-                          _showErrorDialog(
-                            'Passport Number or Aadhar Number is missing, provide atleast one.',
-                          );
-                        }
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.green.shade100,
-                          borderRadius: BorderRadius.circular(16),
+                              if (_itinerary.isNotEmpty) ...[
+                                const SizedBox(height: 12),
+                                SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Wrap(
+                                    spacing: 8,
+                                    runSpacing: 8,
+                                    children: _itinerary
+                                        .map(
+                                          (destination) => Chip(
+                                            side: BorderSide(
+                                              color: Colors.green.shade100,
+                                            ),
+                                            color: WidgetStatePropertyAll(
+                                              Colors.green.shade100,
+                                            ),
+                                            label: Text(
+                                              destination,
+                                              style: TextStyle(
+                                                color: Colors.green.shade800,
+                                              ),
+                                            ),
+                                            deleteIcon: Icon(
+                                              Icons.close,
+                                              size: 18,
+                                              color: Colors.green.shade800,
+                                            ),
+                                            onDeleted: () =>
+                                                _removeItineraryItem(
+                                                  destination,
+                                                ),
+                                          ),
+                                        )
+                                        .toList(),
+                                  ),
+                                ),
+                              ],
+                            ],
+                          ),
                         ),
-                        width: double.infinity,
-                        child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              "Submit",
-                              style: TextStyle(
-                                color: Colors.green.shade800,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
+
+                        const SizedBox(height: 16),
+                        const SizedBox(height: 20),
+                        GestureDetector(
+                          onTap: () {
+                            if (_formKey.currentState!.validate() &&
+                                (_passportController.text.trim().isNotEmpty ||
+                                    _aadhaarController.text
+                                        .trim()
+                                        .isNotEmpty)) {
+                              final tourist = Tourist(
+                                fullName: _nameController.text,
+                                dob: _dobController.text,
+                                passport:
+                                    _passportController.text.trim().isNotEmpty
+                                    ? _passportController.text.trim()
+                                    : null,
+                                aadhaar:
+                                    _aadhaarController.text.trim().isNotEmpty
+                                    ? _aadhaarController.text.trim()
+                                    : null,
+                                itinerary: _itinerary.isNotEmpty
+                                    ? _itinerary
+                                    : null,
+                              );
+                              context.read<TouristCubit>().create(tourist);
+                            } else {
+                              _showErrorDialog(
+                                'Passport Number or Aadhar Number is missing, provide atleast one.',
+                              );
+                            }
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.green.shade100,
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            width: double.infinity,
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Register Tourist",
+                                  style: TextStyle(
+                                    color: Colors.green.shade800,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
-                ),
-              );
-            },
-          ),
-        ),
+                  );
+                },
+              ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -332,7 +390,7 @@ class _KycVerificationState extends State<KycVerification> {
 Widget _buildSectionHeader(String title) {
   return Text(
     title,
-    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
   );
 }
 
@@ -350,7 +408,7 @@ Widget _buildTextField({
       validator: validator,
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: TextStyle(color: Colors.grey.shade700),
+        labelStyle: TextStyle(color: Colors.grey.shade700, fontSize: 14),
         floatingLabelStyle: TextStyle(
           color: Colors.black,
           fontWeight: FontWeight.bold,

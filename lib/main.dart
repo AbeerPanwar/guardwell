@@ -9,6 +9,7 @@ import 'package:guardwell/data/repositories/contact_repository_impl.dart';
 import 'package:guardwell/data/repositories/location_repository_impl.dart';
 import 'package:guardwell/data/repositories/tourist_repository_impl.dart';
 import 'package:guardwell/data/services/contact_service.dart';
+import 'package:guardwell/data/services/get_data.dart';
 import 'package:guardwell/data/services/hive_service.dart';
 import 'package:guardwell/data/services/location_service.dart';
 import 'package:guardwell/domain/repositories/contact_repository.dart';
@@ -22,6 +23,7 @@ import 'package:guardwell/domain/usecases/tourist/create_tourist.dart';
 import 'package:guardwell/injection_container.dart' as di;
 import 'package:guardwell/presentation/bloc/Auth/auth_cubit.dart';
 import 'package:guardwell/presentation/bloc/contacts/contacts_bloc.dart';
+import 'package:guardwell/presentation/bloc/get_data/getdata_cubit.dart';
 import 'package:guardwell/presentation/bloc/location/location_bloc.dart';
 import 'package:guardwell/presentation/bloc/location/location_event.dart';
 import 'package:guardwell/presentation/bloc/sos/sos_cubit.dart';
@@ -100,6 +102,14 @@ class MyApp extends StatelessWidget {
             ],
             child: MultiBlocProvider(
               providers: [
+                BlocProvider(
+                  create: (_) => GetDataCubit(
+                    GetDataService(
+                      baseUrl: dotenv.env['NODE_JS_BACKEND_URI']!,
+                      token: token,
+                    ),
+                  ),
+                ),
                 BlocProvider(
                   create: (_) => TouristCubit(
                     CreateTourist(
