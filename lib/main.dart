@@ -4,8 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:guardwell/core/constants.dart';
 import 'package:guardwell/data/datasources/aut_local_datasource.dart';
+import 'package:guardwell/data/datasources/tourist_remote_datasource.dart';
 import 'package:guardwell/data/repositories/contact_repository_impl.dart';
 import 'package:guardwell/data/repositories/location_repository_impl.dart';
+import 'package:guardwell/data/repositories/tourist_repository_impl.dart';
 import 'package:guardwell/data/services/contact_service.dart';
 import 'package:guardwell/data/services/hive_service.dart';
 import 'package:guardwell/data/services/location_service.dart';
@@ -16,6 +18,7 @@ import 'package:guardwell/domain/usecases/auth/register_usecase.dart';
 import 'package:guardwell/domain/usecases/location/get_current_location.dart';
 import 'package:guardwell/domain/usecases/contacts/get_emergency_contacts.dart';
 import 'package:guardwell/domain/usecases/send_sos_message.dart';
+import 'package:guardwell/domain/usecases/tourist/create_tourist.dart';
 import 'package:guardwell/injection_container.dart' as di;
 import 'package:guardwell/presentation/bloc/Auth/auth_cubit.dart';
 import 'package:guardwell/presentation/bloc/contacts/contacts_bloc.dart';
@@ -23,6 +26,7 @@ import 'package:guardwell/presentation/bloc/location/location_bloc.dart';
 import 'package:guardwell/presentation/bloc/location/location_event.dart';
 import 'package:guardwell/presentation/bloc/sos/sos_cubit.dart';
 import 'package:guardwell/presentation/bloc/system_contacts/system_contacts_cubit.dart';
+import 'package:guardwell/presentation/bloc/tourist/tourist_cubit.dart';
 import 'package:guardwell/presentation/screens/auth/splash_screen.dart';
 import 'package:guardwell/presentation/screens/home_screen.dart';
 import 'package:guardwell/presentation/screens/setup_screens/setup_contact_screen.dart';
@@ -96,6 +100,18 @@ class MyApp extends StatelessWidget {
             ],
             child: MultiBlocProvider(
               providers: [
+                BlocProvider(
+                  create: (_) => TouristCubit(
+                    CreateTourist(
+                      TouristRepositoryImpl(
+                        TouristRemoteDataSourceImpl(
+                          baseUrl: dotenv.env['NODE_JS_BACKEND_URI']!,
+                          token: token,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
                 BlocProvider(
                   create: (_) => LocationBloc(
                     getCurrentLocation: GetCurrentLocation(locationRepository),

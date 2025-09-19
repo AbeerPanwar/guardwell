@@ -8,7 +8,7 @@ import 'package:guardwell/presentation/bloc/location/location_bloc.dart';
 import 'package:guardwell/presentation/bloc/location/location_state.dart';
 import 'package:guardwell/presentation/bloc/sos/sos_cubit.dart';
 import 'package:guardwell/presentation/bloc/sos/sos_state.dart';
-import 'package:guardwell/presentation/screens/settings_screen.dart';
+import 'package:guardwell/presentation/screens/settings/settings_screen.dart';
 import 'package:guardwell/presentation/widgets/sos_button.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -204,8 +204,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   onPressed: () {
                     final locState = context.read<LocationBloc>().state;
                     if (locState is LocationLoaded) {
-                      context.read<SosCubit>().sendSos();
-                      context.read<SosCubit>().send(locState.position);
+                      context.read<SosCubit>().sendFullSos(locState.position);
                     } else {
                       _showErrorDialog(
                         'Location not available. Please wait for location to be determined.',

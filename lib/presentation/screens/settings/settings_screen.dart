@@ -2,8 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:guardwell/presentation/bloc/Auth/auth_cubit.dart';
-import 'package:guardwell/presentation/screens/contact_management_screen.dart';
-import 'package:guardwell/presentation/screens/language_management_screen.dart';
+import 'package:guardwell/presentation/screens/settings/contact_management_screen.dart';
+import 'package:guardwell/presentation/screens/settings/kyc_verification.dart';
+import 'package:guardwell/presentation/screens/settings/language_management_screen.dart';
 import 'package:guardwell/presentation/widgets/settings_tile.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -51,6 +52,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
               title: 'update_profile'.tr(),
               subtitle: 'update_profile_sub'.tr(),
               onTap: () {},
+            ),
+            SizedBox(height: 30),
+            SettingsTile(
+              icon: Icons.verified_rounded,
+              title: 'Kyc_title'.tr(),
+              subtitle: 'Kyc_sub_title'.tr(),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const KycVerification(),
+                  ),
+                );
+              },
             ),
             SizedBox(height: 30),
             SettingsTile(

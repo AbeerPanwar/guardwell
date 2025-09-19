@@ -29,5 +29,7 @@
   "no_contact_sub": "Add emergency contacts to enable SOS alerts",
   "remove": "Remove",
   "search_contacts": "Search contacts...",
-  "unkown": "Unknown"
+  "unkown": "Unknown",
+  "Kyc_title": "KYC Verification",
+  "Kyc_sub_title": "Update and verify kyc"
 }

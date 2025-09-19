@@ -29,5 +29,7 @@
   "no_contact_sub": "SOS अलर्ट सक्षम करण्यासाठी आपत्कालीन संपर्क जोडा",
   "remove": "काढा",
   "search_contacts": "संपर्क शोधा...",
-  "unknown": "अज्ञात"
+  "unknown": "अज्ञात",
+  "Kyc_title": "KYC सत्यापन",
+  "Kyc_sub_title": "KYC अपडेट आणि सत्यापित करा"
 }

@@ -10,14 +10,22 @@ class SosCubit extends Cubit<SosState> {
   final GetEmergencyContacts getEmergencyContacts;
   final SendSosMessage sendSosMessage;
   final LocationBloc locationBloc;
-  SosCubit(this.locationBloc,{required this.getEmergencyContacts, required this.sendSosMessage}) : super(const SosIdle());
+  SosCubit(
+    this.locationBloc, {
+    required this.getEmergencyContacts,
+    required this.sendSosMessage,
+  }) : super(const SosIdle());
 
   Future<void> send(Position position) async {
     emit(const SosSending());
     try {
       final contacts = await getEmergencyContacts();
       if (contacts.isEmpty) {
-        emit(const SosFailure('No emergency contacts found. Please add emergency contacts first.'));
+        emit(
+          const SosFailure(
+            'No emergency contacts found. Please add emergency contacts first.',
+          ),
+        );
         return;
       }
       await sendSosMessage(contacts, position);
@@ -25,6 +33,7 @@ class SosCubit extends Cubit<SosState> {
       emit(const SosIdle());
     } catch (e) {
       emit(const SosFailure('Failed to send SOS alert. Please try again.'));
+    } finally {
       emit(const SosIdle());
     }
   }
@@ -45,6 +54,32 @@ class SosCubit extends Cubit<SosState> {
       emit(SosStopped());
     } catch (e) {
       emit(SosFailure("Failed to stop SOS: $e"));
+    }
+  }
+
+  // Handles both: SMS to contacts + backend call
+  Future<void> sendFullSos(Position position) async {
+    emit(const SosSending());
+    try {
+      // 1. Send to backend
+      locationBloc.add(StartSosLocationEvent());
+
+      // 2. Send to contacts
+      final contacts = await getEmergencyContacts();
+      if (contacts.isEmpty) {
+        emit(
+          const SosFailure(
+            'No emergency contacts found. Please add emergency contacts first.',
+          ),
+        );
+        return;
+      }
+      await sendSosMessage(contacts, position);
+
+      emit(SosSuccess(contacts.length));
+      emit(SosActive());
+    } catch (e) {
+      emit(SosFailure("Failed to send full SOS: $e"));
     }
   }
 }
