@@ -14,7 +14,6 @@ class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  bool _isLoading = false;
   bool _obscurePassword = true;
 
   OutlineInputBorder enabeldBorder = OutlineInputBorder(
@@ -123,23 +122,14 @@ class _LoginFormState extends State<LoginForm> {
                 ),
                 const SizedBox(height: 35),
                 ElevatedButton(
-                  onPressed: _isLoading
-                      ? null
-                      : () {
-                          if (_formKey.currentState!.validate()) {
-                            setState(() {
-                              _isLoading = true;
-                            });
-                            context.read<AuthCubit>().login(
-                              _emailController.text.trim(),
-                              _passwordController.text,
-                            );
-                          }
-
-                          setState(() {
-                            _isLoading = false;
-                          });
-                        },
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      context.read<AuthCubit>().login(
+                        _emailController.text.trim(),
+                        _passwordController.text,
+                      );
+                    }
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black,
                     padding: const EdgeInsets.symmetric(vertical: 16),
@@ -147,11 +137,14 @@ class _LoginFormState extends State<LoginForm> {
                       borderRadius: BorderRadius.circular(25),
                     ),
                   ),
-                  child: _isLoading
+                  child: state is AuthLoading
                       ? const SizedBox(
                           height: 20,
                           width: 20,
-                          child: CircularProgressIndicator(strokeWidth: 2),
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
                         )
                       : const Text(
                           'Sign In',

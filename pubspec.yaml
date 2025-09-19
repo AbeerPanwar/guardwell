@@ -52,6 +52,7 @@ dependencies:
   fpdart: ^1.1.1
   flutter_dotenv: ^6.0.0
   flutter_secure_storage: ^9.2.4
+  geocoding: ^4.0.0
 
 dev_dependencies:
   flutter_test:

@@ -21,6 +21,7 @@ import 'package:guardwell/presentation/bloc/sos/sos_cubit.dart';
 import 'package:guardwell/presentation/bloc/sos/sos_state.dart';
 import 'package:guardwell/presentation/screens/settings/settings_screen.dart';
 import 'package:guardwell/presentation/widgets/sos_button.dart';
+import 'package:guardwell/presentation/widgets/track_score.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -35,7 +36,6 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     context.read<GetDataCubit>().fetchUser();
-    print('init state ..............');
   }
 
   void _showErrorDialog(String message) {
@@ -181,6 +181,97 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20, right: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    TrackScore(),
+                    Column(
+                      children: [
+                        Container(
+                          width: 170,
+                          height: 145,
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade300,
+                            borderRadius: BorderRadius.circular(30),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.shade400,
+                                spreadRadius: 2,
+                                blurRadius: 10,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(20),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(4),
+                                  child: Icon(
+                                    Icons.location_history,
+                                    size: 35,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                Text(
+                                  'Area',
+                                  style: TextStyle(
+                                    fontSize: 26,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  'Safe',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Container(
+                          width: 170,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade300,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.shade400,
+                                spreadRadius: 2,
+                                blurRadius: 10,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                          ),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 5,
+                              ),
+                              child: Row(
+                                children: [
+                                  Icon(Icons.location_on),
+                                  SizedBox(width: 5),
+                                  Text('Shahdara, New Delhi, India'),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
               Container(
                 margin: EdgeInsets.all(16),
                 decoration: BoxDecoration(
