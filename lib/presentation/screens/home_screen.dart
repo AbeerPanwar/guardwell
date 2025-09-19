@@ -1,9 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+// import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:guardwell/core/constants.dart';
+import 'package:guardwell/data/datasources/aut_local_datasource.dart';
+import 'package:guardwell/data/repositories/location_repository_impl.dart';
+import 'package:guardwell/data/services/location_service.dart';
+import 'package:guardwell/domain/usecases/location/get_current_location.dart';
+// import 'package:guardwell/data/services/background_service.dart';
 import 'package:guardwell/presentation/bloc/location/location_bloc.dart';
+import 'package:guardwell/presentation/bloc/location/location_event.dart';
 // import 'package:guardwell/presentation/bloc/location/location_event.dart';
 import 'package:guardwell/presentation/bloc/location/location_state.dart';
 import 'package:guardwell/presentation/bloc/sos/sos_cubit.dart';
@@ -92,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
         listeners: [
           BlocListener<LocationBloc, LocationState>(
             listenWhen: (prev, curr) => curr is LocationLoaded,
-            listener: (context, state) {
+            listener: (context, state) async {
               if (state is LocationLoaded) {
                 _mapController?.animateCamera(
                   CameraUpdate.newLatLngZoom(
@@ -100,6 +110,34 @@ class _HomeScreenState extends State<HomeScreen> {
                     AppConstants.defaultZoom,
                   ),
                 );
+                final localDataSource = AuthLocalDataSourceImpl(
+                  secureStorage: FlutterSecureStorage(),
+                );
+                final String token = await localDataSource.getToken() ?? '';
+                final LocationBloc locationBloc = LocationBloc(
+                  LocationRepositoryImpl(
+                    LocationService(
+                      baseUrl: dotenv.env['NODE_JS_BACKEND_URI']!,
+                      token: token,
+                    ),
+                  ),
+                  getCurrentLocation: GetCurrentLocation(
+                    LocationRepositoryImpl(
+                      LocationService(
+                        baseUrl: dotenv.env['NODE_JS_BACKEND_URI']!,
+                        token: token,
+                      ),
+                    ),
+                  ),
+                );
+                locationBloc.add(StartLiveLocationEvent());
+                // final token = await const FlutterSecureStorage().read(
+                //   key: "token",
+                // );
+                // BackgroundService.initialize(
+                //   backendUrl: dotenv.env['NODE_JS_BACKEND_URI']!,
+                //   token: token ?? '',
+                // );
               }
             },
           ),
@@ -201,14 +239,34 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               BlocBuilder<SosCubit, SosState>(
                 builder: (context, sosState) => SosButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    final localDataSource = AuthLocalDataSourceImpl(
+                      secureStorage: FlutterSecureStorage(),
+                    );
+                    final String token = await localDataSource.getToken() ?? '';
+                    print(token);
+                    final locationservice = LocationService(
+                      baseUrl: dotenv.env['NODE_JS_BACKEND_URI']!,
+                      token: token,
+                    );
+                    if (!mounted) {
+                      return;
+                    }
+                    final pos = await Geolocator.getCurrentPosition(
+                      desiredAccuracy: LocationAccuracy.high,
+                    );
                     final locState = context.read<LocationBloc>().state;
-                    if (locState is LocationLoaded) {
-                      context.read<SosCubit>().sendFullSos(locState.position);
-                    } else {
-                      _showErrorDialog(
-                        'Location not available. Please wait for location to be determined.',
-                      );
+                    try {
+                      await locationservice.sendSos(pos);
+                      if (locState is LocationLoaded) {
+                        context.read<SosCubit>().send(locState.position);
+                      } else {
+                        _showErrorDialog(
+                          'Location not available. Please wait for location to be determined.',
+                        );
+                      }
+                    } catch (e) {
+                      throw e.toString();
                     }
                   },
                   isLoading: sosState is SosSending,

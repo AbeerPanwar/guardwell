@@ -36,43 +36,55 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   }
 
   Future<void> _onStartLiveLocation(
-      StartLiveLocationEvent event, Emitter<LocationState> emit) async {
+    StartLiveLocationEvent event,
+    Emitter<LocationState> emit,
+  ) async {
     await _liveLocationSubscription?.cancel();
-    _liveLocationSubscription =
-        locationRepository.getLiveLocation().listen((position) {
-      add(LiveLocationInternalEvent(position, isSos: false));
+    _liveLocationSubscription = locationRepository.getLiveLocation().listen((
+      position,
+    ) {
+      add(LiveLocationInternalEvent(position, isSos: true));
     });
   }
 
   Future<void> _onStopLiveLocation(
-      StopLiveLocationEvent event, Emitter<LocationState> emit) async {
+    StopLiveLocationEvent event,
+    Emitter<LocationState> emit,
+  ) async {
     await _liveLocationSubscription?.cancel();
     emit(LocationInitial());
   }
 
   Future<void> _onStartSosLocation(
-      StartSosLocationEvent event, Emitter<LocationState> emit) async {
+    StartSosLocationEvent event,
+    Emitter<LocationState> emit,
+  ) async {
     await _liveLocationSubscription?.cancel();
     final pos = await locationRepository.getCurrentLocation();
     await locationRepository.sendSos(pos);
 
     emit(SosActiveState(pos));
 
-    _liveLocationSubscription =
-        locationRepository.getLiveLocation().listen((position) {
+    _liveLocationSubscription = locationRepository.getLiveLocation().listen((
+      position,
+    ) {
       add(LiveLocationInternalEvent(position, isSos: true));
     });
   }
 
   Future<void> _onStopSosLocation(
-      StopSosLocationEvent event, Emitter<LocationState> emit) async {
+    StopSosLocationEvent event,
+    Emitter<LocationState> emit,
+  ) async {
     await _liveLocationSubscription?.cancel();
     emit(LocationInitial());
     emit(SosStoppedState());
   }
 
   Future<void> _onLiveLocationInternal(
-      LiveLocationInternalEvent event, Emitter<LocationState> emit) async {
+    LiveLocationInternalEvent event,
+    Emitter<LocationState> emit,
+  ) async {
     emit(LiveLocationUpdated(event.position));
     if (event.isSos) {
       await locationRepository.updateSos(event.position);
@@ -85,5 +97,3 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     return super.close();
   }
 }
-
-

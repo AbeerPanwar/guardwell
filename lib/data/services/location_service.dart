@@ -35,7 +35,6 @@ class LocationService {
   }
 
   Future<void> updateSos(Position position) async {
-    if (activeAlertId == null) return;
 
     final response = await http.post(
       Uri.parse('$baseUrl/api/alert/update'),
