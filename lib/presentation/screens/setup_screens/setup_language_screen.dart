@@ -41,7 +41,14 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
     return Scaffold(
       appBar: widget.isFirstLaunch
           ? AppBar(
-              title: Text('language'.tr()),
+              title: Text(
+                'language'.tr(),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.green.shade800,
+                  fontSize: 25,
+                ),
+              ),
               backgroundColor: Colors.green.shade100,
             )
           : AppBar(

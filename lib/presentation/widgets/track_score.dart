@@ -37,10 +37,22 @@ class TrackScore extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(4),
-                        child: Icon(Icons.track_changes_rounded, size: 35, color: Colors.white,),
+                        child: Card(
+                          color: Colors.grey.shade300,
+                          elevation: 4,
+                          shape: CircleBorder(),
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Icon(
+                              Icons.health_and_safety_rounded,
+                              size: 32,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
                       ),
                       const Text(
-                        'Track Score',
+                        'Safety Score',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 16,

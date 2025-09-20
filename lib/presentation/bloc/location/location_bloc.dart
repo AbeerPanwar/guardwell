@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:guardwell/domain/repositories/location_repository.dart';
 import 'package:guardwell/domain/usecases/location/get_current_location.dart';
@@ -24,8 +25,22 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   Future<void> _onLoad(LocationEvent event, Emitter<LocationState> emit) async {
     emit(const LocationLoading());
     try {
+      String initialplace = '';
       final position = await getCurrentLocation();
-      emit(LocationLoaded(position));
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+        position.latitude,
+        position.longitude,
+      );
+
+      if (placemarks.isNotEmpty) {
+        print('inside.......................');
+        Placemark place = placemarks.first;
+        initialplace = "${place.name}, ${place.locality}, ${place.country}";
+        print(initialplace);
+      } else {
+        initialplace = "No place found for the given coordinates";
+      }
+      emit(LocationLoaded(position, initialplace));
     } catch (e) {
       emit(
         const LocationFailure(

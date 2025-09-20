@@ -76,7 +76,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               );
             }
-            return Text('');
+            return Text(
+              'Session is expired sign in again...',
+              style: TextStyle(fontSize: 16, color: Colors.red),
+            );
           },
         ),
         leading: Padding(
@@ -205,16 +208,26 @@ class _HomeScreenState extends State<HomeScreen> {
                             ],
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.all(20),
+                            padding: const EdgeInsets.only(
+                              left: 20,
+                              right: 20,
+                              top: 12,
+                              bottom: 6,
+                            ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(4),
-                                  child: Icon(
-                                    Icons.location_history,
-                                    size: 35,
-                                    color: Colors.black,
+                                Card(
+                                  elevation: 4,
+                                  color: Colors.grey.shade900,
+                                  shape: CircleBorder(),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Icon(
+                                      Icons.terrain_rounded,
+                                      size: 32,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ),
                                 Text(
@@ -236,36 +249,80 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         SizedBox(height: 20),
-                        Container(
-                          width: 170,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade300,
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.shade400,
-                                spreadRadius: 2,
-                                blurRadius: 10,
-                                offset: const Offset(0, 4),
-                              ),
-                            ],
-                          ),
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 5,
-                              ),
-                              child: Row(
-                                children: [
-                                  Icon(Icons.location_on),
-                                  SizedBox(width: 5),
-                                  Text('Shahdara, New Delhi, India'),
+                        BlocConsumer<LocationBloc, LocationState>(
+                          listener: (context, state) {},
+                          builder: (context, state) {
+                            if (state is LocationLoaded) {
+                              return Container(
+                                width: 170,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade300,
+                                  borderRadius: BorderRadius.circular(20),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.shade400,
+                                      spreadRadius: 2,
+                                      blurRadius: 10,
+                                      offset: const Offset(0, 4),
+                                    ),
+                                  ],
+                                ),
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 5,
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Icon(Icons.location_on),
+                                        SizedBox(width: 5),
+                                        Text(state.place),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }
+                            return Container(
+                              width: 170,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade300,
+                                borderRadius: BorderRadius.circular(20),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.shade400,
+                                    spreadRadius: 2,
+                                    blurRadius: 10,
+                                    offset: const Offset(0, 4),
+                                  ),
                                 ],
                               ),
-                            ),
-                          ),
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 5,
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.location_on),
+                                      SizedBox(width: 20),
+                                      SizedBox(
+                                        height: 20,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
                         ),
                       ],
                     ),
@@ -354,7 +411,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       secureStorage: FlutterSecureStorage(),
                     );
                     final String token = await localDataSource.getToken() ?? '';
-                    print(token);
                     final locationservice = LocationService(
                       baseUrl: dotenv.env['NODE_JS_BACKEND_URI']!,
                       token: token,

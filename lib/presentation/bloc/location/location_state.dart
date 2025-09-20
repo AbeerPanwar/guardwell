@@ -17,9 +17,10 @@ class LocationLoading extends LocationState {
 
 class LocationLoaded extends LocationState {
   final Position position;
-  const LocationLoaded(this.position);
+  final String place;
+  const LocationLoaded(this.position, this.place);
   @override
-  List<Object?> get props => [position];
+  List<Object?> get props => [position, place];
 }
 
 class LocationFailure extends LocationState {

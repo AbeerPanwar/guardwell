@@ -33,7 +33,6 @@ class TouristRemoteDataSourceImpl implements TouristRemoteDataSource {
     );
 
     if (response.statusCode == 201) {
-      print(response.body);
     } else {
       throw Exception('Failed to create tourist: ${response.body}');
     }

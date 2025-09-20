@@ -26,7 +26,6 @@ class LocationService {
     if (response.statusCode == 201) {
       final data = jsonDecode(response.body);
       activeAlertId = data['alertId'];
-      print('hello hello $activeAlertId');
     } else {
       throw Exception(
         "Failed to send SOS: ${response.statusCode} ${response.body}",
@@ -52,7 +51,6 @@ class LocationService {
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       activeAlertId = data['message'];
-      print('hello message  $activeAlertId');
     }else{
       throw Exception(
         "Failed to update SOS: ${response.statusCode}  ${response.body}",

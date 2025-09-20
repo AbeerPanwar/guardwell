@@ -24,7 +24,6 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> checkAuthStatus() async {
     emit(AuthLoading());
     final token = await _localDataSource.getToken();
-    print('abeer abeer abeer abberr abeer$token');
     if (token != null) {
       // ✅ User is logged in
       emit(AuthAuthenticated(token));
