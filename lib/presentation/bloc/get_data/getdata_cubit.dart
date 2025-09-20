@@ -13,6 +13,8 @@ class GetDataCubit extends Cubit<GetDataState> {
     try {
       final user = await getDataService.getUser();
       emit(GetDataLoaded(user));
+      print(user);
+      print('......................................');
     } catch (e) {
       emit(GetDataError(e.toString()));
     }

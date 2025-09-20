@@ -43,7 +43,7 @@ class _AuthScreenState extends State<AuthScreen>
                 children: [
                   Center(
                     child: Text(
-                      'GuardWell',
+                      'Safe Tourist',
                       style: Theme.of(context).textTheme.headlineLarge
                           ?.copyWith(
                             color: Theme.of(context).colorScheme.primary,

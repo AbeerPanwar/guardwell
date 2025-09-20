@@ -61,8 +61,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
             SizedBox(height: 30),
             SettingsTile(
               icon: Icons.verified_rounded,
-              title: 'Kyc_title'.tr(),
-              subtitle: 'Kyc_sub_title'.tr(),
+              title: 'kyc_title'.tr(),
+              subtitle: 'kyc_sub_title'.tr(),
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(

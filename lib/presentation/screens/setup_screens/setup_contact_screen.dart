@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_contacts/flutter_contacts.dart' as fc;
@@ -31,7 +32,7 @@ class _SetupContactScreenState extends State<SetupContactScreen> {
 
   void _addContact(fc.Contact contact) {
     if (_selectedContacts.length >= 5) {
-      _showErrorDialog('Maximum 5 emergency contacts allowed.');
+      _showErrorDialog('add_contact_warning'.tr());
       return;
     }
 
@@ -41,7 +42,7 @@ class _SetupContactScreenState extends State<SetupContactScreen> {
 
     final emergencyContact = EmergencyContact(
       id: phoneNumber,
-      name: contact.displayName.isNotEmpty ? contact.displayName : 'Unknown',
+      name: contact.displayName.isNotEmpty ? contact.displayName : 'unkown'.tr(),
       phoneNumber: phoneNumber,
     );
 
@@ -66,12 +67,12 @@ class _SetupContactScreenState extends State<SetupContactScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Error'),
+        title:  Text('error'.tr()),
         content: Text(message),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('OK'),
+            child:  Text('ok'.tr()),
           ),
         ],
       ),
@@ -95,8 +96,8 @@ class _SetupContactScreenState extends State<SetupContactScreen> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          title: const Text(
-            'Setup Emergency Contacts',
+          title:  Text(
+            'setup_contacts'.tr(),
             style: TextStyle(color: Colors.black),
           ),
           centerTitle: true,
@@ -114,20 +115,20 @@ class _SetupContactScreenState extends State<SetupContactScreen> {
                   ),
                   const SizedBox(height: AppConstants.defaultPadding),
                   Text(
-                    'Select Emergency Contacts',
+                    'setup_contacts_sub'.tr(),
                     style: Theme.of(context).textTheme.headlineSmall,
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: AppConstants.smallPadding),
                   Text(
-                    'Choose up to 5 contacts who will receive your emergency alerts.',
+                    'setup_contacts_choise'.tr(),
                     style: Theme.of(context).textTheme.bodyMedium,
                     textAlign: TextAlign.center,
                   ),
                   if (_selectedContacts.isNotEmpty) ...[
                     const SizedBox(height: AppConstants.defaultPadding),
                     Text(
-                      'Selected Contacts (${_selectedContacts.length}/5)',
+                      '${'setup_contatcs_select'.tr()} (${_selectedContacts.length}/5)',
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(height: AppConstants.smallPadding),
@@ -208,7 +209,7 @@ class _SetupContactScreenState extends State<SetupContactScreen> {
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
                 : Text(
-                    'Continue',
+                    'continue'.tr(),
                     style: TextStyle(
                       color: Colors.green.shade800,
                       fontWeight: FontWeight.bold,

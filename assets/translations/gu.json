@@ -30,6 +30,18 @@
   "remove": "દૂર કરો",
   "search_contacts": "સંપર્ક શોધો...",
   "unknown": "અજ્ઞાત",
-  "Kyc_title": "KYC ચકાસણી",
-  "Kyc_sub_title": "KYC ને અપડેટ અને ચકાસો"
+  "kyc_title": "પર્યટક નોંધણી",
+  "kyc_sub_title": "તમારી પર્યટક પ્રોફાઇલ બનાવો",
+  "kyc_sub_null": "તમે પહેલેથી જ તમારી પર્યટક આઈડી બનાવી છે",
+  "hello": "નમસ્તે",
+  "area": "વિસ્તાર",
+  "area_sub": "સુરક્ષિત",
+  "safety": "સેફ્ટી સ્કોર",
+  "profile_info": "વ્યક્તિગત માહિતી",
+  "kyc_info": "KYC માહિતી",
+  "setup_contacts": "આકસ્મિક સંપર્ક સેટ કરો",
+  "setup_contacts_sub": "આકસ્મિક સંપર્ક પસંદ કરો",
+  "setup_contacts_choise": "તમારા ઇમરજન્સી એલર્ટ પ્રાપ્ત કરવા માટે 5 સંપર્કો પસંદ કરો.",
+  "setup_contacts_select": "પસંદ કરેલા સંપર્કો",
+  "continue": "ચાલુ રાખો"
 }

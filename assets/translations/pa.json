@@ -30,6 +30,18 @@
   "remove": "ਹਟਾਓ",
   "search_contacts": "ਸੰਪਰਕ ਖੋਜੋ...",
   "unknown": "ਅਣਜਾਣ",
-   "Kyc_title": "KYC ਪ੍ਰਮਾਣਿਕਤਾ",
-  "Kyc_sub_title": "KYC ਅਪਡੇਟ ਅਤੇ ਪ੍ਰਮਾਣਿਤ ਕਰੋ"
+  "kyc_title": "ਪਰਟੂ ਰਜਿਸਟ੍ਰੇਸ਼ਨ",
+  "kyc_sub_title": "ਆਪਣਾ ਪਰਟੂ ਪ੍ਰੋਫਾਈਲ ਬਣਾਓ",
+  "kyc_sub_null": "ਤੁਸੀਂ ਪਹਿਲਾਂ ਹੀ ਆਪਣੀ ਪਰਟੂ ਆਈਡੀ ਬਣਾ ਲਈ ਹੈ",
+  "hello": "ਸਤ ਸ੍ਰੀ ਅਕਾਲ",
+  "area": "ਇਲਾਕਾ",
+  "area_sub": "ਸੁਰੱਖਿਅਤ",
+  "safety": "ਸੁਰੱਖਿਆ ਸਕੋਰ",
+  "profile_info": "ਨਿੱਜੀ ਜਾਣਕਾਰੀ",
+  "kyc_info": "KYC ਜਾਣਕਾਰੀ",
+  "setup_contacts": "ਐਮਰਜੈਂਸੀ ਸੰਪਰਕ ਸੈੱਟ ਕਰੋ",
+  "setup_contacts_sub": "ਐਮਰਜੈਂਸੀ ਸੰਪਰਕ ਚੁਣੋ",
+  "setup_contacts_choise": "ਆਪਣੀਆਂ ਐਮਰਜੈਂਸੀ ਚੇਤਾਵਨੀਆਂ ਪ੍ਰਾਪਤ ਕਰਨ ਲਈ ਵੱਧ ਤੋਂ ਵੱਧ 5 ਸੰਪਰਕ ਚੁਣੋ।",
+  "setup_contacts_select": "ਚੁਣੇ ਹੋਏ ਸੰਪਰਕ",
+  "continue": "ਜਾਰੀ ਰੱਖੋ"
 }

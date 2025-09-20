@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_background_service/flutter_background_service.dart';
@@ -42,12 +43,12 @@ class _HomeScreenState extends State<HomeScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Error'),
+        title: Text('error'.tr()),
         content: Text(message),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('OK'),
+            child: Text('ok'.tr()),
           ),
         ],
       ),
@@ -59,6 +60,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final Size screenSize = MediaQuery.of(context).size;
+    final double screenWidth = screenSize.width;
+    final double screenheight = screenSize.height;
     return Scaffold(
       appBar: AppBar(
         actionsPadding: EdgeInsets.only(right: 10),
@@ -69,10 +73,11 @@ class _HomeScreenState extends State<HomeScreen> {
             if (state is GetDataLoaded) {
               final fullName = state.props[0]['name'].split(' ');
               return Text(
-                'Hello, ${fullName.first}',
+                '${'Hello'.tr()}, ${fullName.first}',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
+                  fontSize: screenheight * 0.028,
                 ),
               );
             }
@@ -91,6 +96,17 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         actions: [
+          BlocBuilder<LocationBloc, LocationState>(
+            builder: (context, state) => IconButton(
+              icon: const Icon(Icons.refresh, color: Colors.black),
+              onPressed: state is LocationLoading
+                  ? null
+                  : () {
+                      context.read<LocationBloc>().add(const RefreshLocation());
+                      setState(() {});
+                    },
+            ),
+          ),
           Card(
             color: Colors.white,
             shape: RoundedRectangleBorder(
@@ -108,16 +124,6 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
           ),
-          // BlocBuilder<LocationBloc, LocationState>(
-          //   builder: (context, state) => IconButton(
-          //     icon: const Icon(Icons.refresh),
-          //     onPressed: state is LocationLoading
-          //         ? null
-          //         : () => context.read<LocationBloc>().add(
-          //             const RefreshLocation(),
-          //           ),
-          //   ),
-          // ),
         ],
       ),
       body: MultiBlocListener(
@@ -182,7 +188,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Padding(
           padding: const EdgeInsets.only(bottom: 20),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Padding(
                 padding: const EdgeInsets.only(bottom: 20, right: 8),
@@ -193,8 +199,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     Column(
                       children: [
                         Container(
-                          width: 170,
-                          height: 145,
+                          width: screenWidth * 0.4,
+                          height: screenheight * 0.14,
                           decoration: BoxDecoration(
                             color: Colors.grey.shade300,
                             borderRadius: BorderRadius.circular(30),
@@ -208,43 +214,45 @@ class _HomeScreenState extends State<HomeScreen> {
                             ],
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.only(
-                              left: 20,
-                              right: 20,
-                              top: 12,
-                              bottom: 6,
+                            padding: EdgeInsets.only(
+                              left: screenheight * 0.02,
+                              right: screenheight * 0.018,
+                              top: screenheight * 0.01,
+                              bottom: screenheight * 0.008,
                             ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Card(
-                                  elevation: 4,
-                                  color: Colors.grey.shade900,
-                                  shape: CircleBorder(),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: Icon(
-                                      Icons.terrain_rounded,
-                                      size: 32,
-                                      color: Colors.white,
+                            child: SingleChildScrollView(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Card(
+                                    elevation: 4,
+                                    color: Colors.grey.shade900,
+                                    shape: CircleBorder(),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(4.0),
+                                      child: Icon(
+                                        Icons.terrain_rounded,
+                                        size: screenheight * 0.032,
+                                        color: Colors.white,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Text(
-                                  'Area',
-                                  style: TextStyle(
-                                    fontSize: 26,
-                                    fontWeight: FontWeight.bold,
+                                  Text(
+                                    'area'.tr(),
+                                    style: TextStyle(
+                                      fontSize: screenheight * 0.027,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  'Safe',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
+                                  Text(
+                                    'area_sub'.tr(),
+                                    style: TextStyle(
+                                      fontSize: screenheight * 0.017,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -254,8 +262,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           builder: (context, state) {
                             if (state is LocationLoaded) {
                               return Container(
-                                width: 170,
-                                height: 50,
+                                width: screenWidth * 0.4,
+                                height: screenheight * 0.05,
                                 decoration: BoxDecoration(
                                   color: Colors.grey.shade300,
                                   borderRadius: BorderRadius.circular(20),
@@ -286,8 +294,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               );
                             }
                             return Container(
-                              width: 170,
-                              height: 50,
+                              width: screenWidth * 0.4,
+                              height: screenheight * 0.05,
                               decoration: BoxDecoration(
                                 color: Colors.grey.shade300,
                                 borderRadius: BorderRadius.circular(20),
@@ -312,6 +320,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       SizedBox(width: 20),
                                       SizedBox(
                                         height: 20,
+                                        width: 20,
                                         child: CircularProgressIndicator(
                                           strokeWidth: 2,
                                           color: Colors.black,
@@ -330,12 +339,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.all(16),
+                margin: EdgeInsets.only(
+                  top: screenheight * 0.022,
+                  bottom: screenheight * 0.022,
+                  left: 16,
+                  right: 16,
+                ),
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.white),
                   borderRadius: BorderRadius.circular(25),
                 ),
-                height: 400,
+                height: screenheight * 0.4,
                 width: double.infinity,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(25),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:guardwell/domain/entities/tourist.dart';
@@ -71,8 +72,8 @@ class _KycVerificationState extends State<KycVerification> {
             ),
           ),
         ),
-        title: const Text(
-          "Tourist Registration",
+        title: Text(
+          'kyc_title'.tr(),
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
@@ -96,14 +97,14 @@ class _KycVerificationState extends State<KycVerification> {
                   ),
                   const SizedBox(height: 20),
                   Text(
-                    'Tourist Registeration',
+                    'kyc_title'.tr(),
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       color: Theme.of(context).colorScheme.outline,
                     ),
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    'You have already created your tourist id',
+                    'kyc_sub_null'.tr(),
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: Theme.of(context).colorScheme.outline,
                     ),

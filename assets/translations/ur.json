@@ -30,6 +30,18 @@
   "remove": "ہٹائیں",
   "search_contacts": "رابطے تلاش کریں...",
   "unknown": "نامعلوم",
-  "Kyc_title": "KYC توثیق",
-  "Kyc_sub_title": "KYC کو اپ ڈیٹ اور توثیق کریں"
+  "kyc_title": "سیاح رجسٹریشن",
+  "kyc_sub_title": "اپنی سیاح پروفائل بنائیں",
+  "kyc_sub_null": "آپ پہلے ہی اپنی سیاح آئی ڈی بنا چکے ہیں",
+  "hello": "السلام علیکم",
+  "area": "علاقہ",
+  "area_sub": "محفوظ",
+  "safety": "حفاظتی اسکور",
+  "profile_info": "ذاتی معلومات",
+  "kyc_info": "KYC معلومات",
+  "setup_contacts": "ایمرجنسی رابطے سیٹ کریں",
+  "setup_contacts_sub": "ایمرجنسی رابطے منتخب کریں",
+  "setup_contacts_choise": "اپنی ایمرجنسی الرٹس وصول کرنے کے لیے زیادہ سے زیادہ 5 رابطے منتخب کریں۔",
+  "setup_contacts_select": "منتخب رابطے",
+  "continue": "جاری رکھیں"
 }

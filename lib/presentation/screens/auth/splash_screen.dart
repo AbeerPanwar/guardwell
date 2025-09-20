@@ -100,7 +100,7 @@ class _SplashScreenState extends State<SplashScreen>
                       ),
                       const SizedBox(height: 32),
                       Text(
-                        'GuardWell',
+                        'Safe Tourist',
                         style: Theme.of(context).textTheme.headlineLarge
                             ?.copyWith(
                               color: Theme.of(context).colorScheme.onPrimary,

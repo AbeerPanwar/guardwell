@@ -30,6 +30,18 @@
   "remove": "काढा",
   "search_contacts": "संपर्क शोधा...",
   "unknown": "अज्ञात",
-  "Kyc_title": "KYC सत्यापन",
-  "Kyc_sub_title": "KYC अपडेट आणि सत्यापित करा"
+  "kyc_title": "पर्यटक नोंदणी",
+  "kyc_sub_title": "आपली पर्यटक प्रोफाइल तयार करा",
+  "kyc_sub_null": "आपण आधीच आपला पर्यटक आयडी तयार केला आहे",
+  "hello": "नमस्कार",
+  "area": "क्षेत्र",
+  "area_sub": "सुरक्षित",
+  "safety": "सुरक्षा गुण",
+  "profile_info": "वैयक्तिक माहिती",
+  "kyc_info": "केवायसी माहिती",
+  "setup_contacts": "आपत्कालीन संपर्क सेट करा",
+  "setup_contacts_sub": "आपत्कालीन संपर्क निवडा",
+  "setup_contacts_choise": "5 संपर्क निवडा जे आपत्कालीन सूचना प्राप्त करतील.",
+  "setup_contacts_select": "निवडलेले संपर्क",
+  "continue": "सुरू ठेवा"
 }

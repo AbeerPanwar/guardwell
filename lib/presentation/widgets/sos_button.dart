@@ -15,13 +15,15 @@ class _SosButtonState extends State<SosButton> {
 
   @override
   Widget build(BuildContext context) {
+    final Size screenSize = MediaQuery.of(context).size;
+    final double screenheight = screenSize.height;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
       child: GestureDetector(
         onTap: widget.onPressed,
         child: Container(
           width: double.infinity,
-          height: 50,
+          height: screenheight * 0.05,
           decoration: BoxDecoration(
             color: Colors.black,
             borderRadius: BorderRadius.circular(25),

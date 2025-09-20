@@ -30,6 +30,18 @@
   "remove": "Remove",
   "search_contacts": "Search contacts...",
   "unkown": "Unknown",
-  "Kyc_title": "KYC Verification",
-  "Kyc_sub_title": "Update and verify kyc"
+  "kyc_title": "Tourist Registration",
+  "kyc_sub_title": "Create your Tourist profile",
+  "kyc_sub_null": "You have already created your tourist id",
+  "hello": "Hello",
+  "area": "Area",
+  "area_sub": "Safe",
+  "safety": "Safety Score",
+  "profile_info": "Personal Information",
+  "kyc_info": "KYC Information",
+  "setup_contacts": "Setup Emergency Contacts",
+  "setup_contacts_sub": "Select Emergency Contacts",
+  "setup_contacts_choise": "Choose up to 5 contacts who will receive your emergency alerts.",
+  "setup_contatcs_select": "Selected Contacts",
+  "continue": "Continue"
 }
