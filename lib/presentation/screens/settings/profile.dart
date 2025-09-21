@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:guardwell/presentation/bloc/get_data/getdata_cubit.dart';
-import 'package:intl/intl.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -47,9 +46,7 @@ class ProfilePage extends StatelessWidget {
           final String? ipfsId = state.props[0]['ipfs_cid'];
           String? isoString = state.props[0]['issued_at'];
           String? isoString2 = state.props[0]['expires_at'];
-          final String issuedAt = isoString == null
-              ? '-'
-              : convert(isoString);
+          final String issuedAt = isoString == null ? '-' : convert(isoString);
           final String expiresAt = isoString2 == null
               ? '-'
               : convert(isoString2);

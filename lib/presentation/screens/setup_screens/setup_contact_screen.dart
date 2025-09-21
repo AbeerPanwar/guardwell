@@ -128,7 +128,7 @@ class _SetupContactScreenState extends State<SetupContactScreen> {
                   if (_selectedContacts.isNotEmpty) ...[
                     const SizedBox(height: AppConstants.defaultPadding),
                     Text(
-                      '${'setup_contatcs_select'.tr()} (${_selectedContacts.length}/5)',
+                      '${'setup_contacts_select'.tr()} (${_selectedContacts.length}/5)',
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(height: AppConstants.smallPadding),

@@ -73,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
             if (state is GetDataLoaded) {
               final fullName = state.props[0]['name'].split(' ');
               return Text(
-                '${'Hello'.tr()}, ${fullName.first}',
+                '${'hello'.tr()}, ${fullName.first}',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
