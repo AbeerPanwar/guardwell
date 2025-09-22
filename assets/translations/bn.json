@@ -43,5 +43,7 @@
   "setup_contacts_sub": "জরুরি যোগাযোগ নির্বাচন করুন",
   "setup_contacts_choise": "৫টি পর্যন্ত যোগাযোগ নির্বাচন করুন যারা আপনার জরুরি সতর্কতা পাবেন।",
   "setup_contacts_select": "নির্বাচিত যোগাযোগ",
-  "continue": "চালিয়ে যান"
+  "continue": "চালিয়ে যান",
+  "notification": "বিজ্ঞপ্তি",
+  "notification_sub": "আপনার বিজ্ঞপ্তি দেখুন"
 }

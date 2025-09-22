@@ -43,5 +43,7 @@
   "setup_contacts_sub": "આકસ્મિક સંપર્ક પસંદ કરો",
   "setup_contacts_choise": "તમારા ઇમરજન્સી એલર્ટ પ્રાપ્ત કરવા માટે 5 સંપર્કો પસંદ કરો.",
   "setup_contacts_select": "પસંદ કરેલા સંપર્કો",
-  "continue": "ચાલુ રાખો"
+  "continue": "ચાલુ રાખો",
+  "notification": "સૂચના",
+  "notification_sub": "તમારી સૂચનાઓ તપાસો"
 }

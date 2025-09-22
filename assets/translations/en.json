@@ -43,5 +43,7 @@
   "setup_contacts_sub": "Select Emergency Contacts",
   "setup_contacts_choise": "Choose up to 5 contacts who will receive your emergency alerts.",
   "setup_contacts_select": "Selected Contacts",
-  "continue": "Continue"
+  "continue": "Continue",
+  "notification": "Notification",
+  "notification_sub": "Check your notifications"
 }

@@ -43,5 +43,7 @@
   "setup_contacts_sub": "आपत्कालीन संपर्क निवडा",
   "setup_contacts_choise": "5 संपर्क निवडा जे आपत्कालीन सूचना प्राप्त करतील.",
   "setup_contacts_select": "निवडलेले संपर्क",
-  "continue": "सुरू ठेवा"
+  "continue": "सुरू ठेवा",
+  "notification": "सूचना",
+  "notification_sub": "तुमच्या सूचनांची तपासणी करा"
 }

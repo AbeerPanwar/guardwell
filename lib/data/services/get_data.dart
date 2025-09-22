@@ -24,4 +24,26 @@ class GetDataService {
       throw Exception("Failed GET ${response.statusCode}: ${response.body}");
     }
   }
+
+  Future<List<Map<String, dynamic>>> getNotification() async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/api/notification'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> decoded = jsonDecode(response.body);
+      final List<Map<String, dynamic>> notification = decoded
+          .map((e) => e as Map<String, dynamic>)
+          .toList();
+      print(notification);
+      print('..................................api');
+      return notification; // success
+    } else {
+      throw Exception("Failed GET ${response.statusCode}: ${response.body}");
+    }
+  }
 }

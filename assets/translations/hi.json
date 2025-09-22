@@ -43,5 +43,7 @@
   "setup_contacts_sub": "आपातकालीन संपर्क चुनें",
   "setup_contacts_choise": "5 तक संपर्क चुनें जो आपके आपातकालीन अलर्ट प्राप्त करेंगे।",
   "setup_contacts_select": "चयनित संपर्क",
-  "continue": "जारी रखें"
+  "continue": "जारी रखें",
+  "notification": "सूचना",
+  "notification_sub": "अपनी सूचनाएँ देखें"
 }

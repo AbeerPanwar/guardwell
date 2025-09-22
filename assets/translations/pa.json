@@ -43,5 +43,7 @@
   "setup_contacts_sub": "ਐਮਰਜੈਂਸੀ ਸੰਪਰਕ ਚੁਣੋ",
   "setup_contacts_choise": "ਆਪਣੀਆਂ ਐਮਰਜੈਂਸੀ ਚੇਤਾਵਨੀਆਂ ਪ੍ਰਾਪਤ ਕਰਨ ਲਈ ਵੱਧ ਤੋਂ ਵੱਧ 5 ਸੰਪਰਕ ਚੁਣੋ।",
   "setup_contacts_select": "ਚੁਣੇ ਹੋਏ ਸੰਪਰਕ",
-  "continue": "ਜਾਰੀ ਰੱਖੋ"
+  "continue": "ਜਾਰੀ ਰੱਖੋ",
+  "notification": "ਸੂਚਨਾ",
+  "notification_sub": "ਆਪਣੀਆਂ ਸੂਚਨਾਵਾਂ ਚੈੱਕ ਕਰੋ"
 }

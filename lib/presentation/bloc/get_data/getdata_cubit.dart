@@ -11,11 +11,17 @@ class GetDataCubit extends Cubit<GetDataState> {
   Future<void> fetchUser() async {
     emit(GetdataLoading());
     try {
+      print('......................................cubitout');
       final user = await getDataService.getUser();
-      emit(GetDataLoaded(user));
-      print(user);
-      print('......................................');
-    } catch (e) {
+      print('✅ user fetched: $user');
+      final notification = await getDataService.getNotification();
+      print('✅ notification fetched: $notification');
+      print('.......................cubit before emit');
+      emit(GetDataLoaded(user, notification));
+      print('.......................cubit after emit');
+    } catch (e, st) {
+      print('❌ Error in fetchUser: $e');
+      print(st);
       emit(GetDataError(e.toString()));
     }
   }

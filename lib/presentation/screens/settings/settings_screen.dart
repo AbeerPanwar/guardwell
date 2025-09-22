@@ -5,6 +5,7 @@ import 'package:guardwell/presentation/bloc/Auth/auth_cubit.dart';
 import 'package:guardwell/presentation/screens/settings/contact_management_screen.dart';
 import 'package:guardwell/presentation/screens/settings/kyc_verification.dart';
 import 'package:guardwell/presentation/screens/settings/language_management_screen.dart';
+import 'package:guardwell/presentation/screens/settings/notification_management.dart';
 import 'package:guardwell/presentation/screens/settings/profile.dart';
 import 'package:guardwell/presentation/widgets/settings_tile.dart';
 
@@ -80,6 +81,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => const ContactManagementScreen(),
+                  ),
+                );
+              },
+            ),
+
+            SizedBox(height: 30),
+            SettingsTile(
+              icon: Icons.notifications_active,
+              title: 'notification'.tr(),
+              subtitle: 'notification_sub'.tr(),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const NotificationManagement(),
                   ),
                 );
               },

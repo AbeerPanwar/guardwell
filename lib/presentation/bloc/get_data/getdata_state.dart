@@ -5,6 +5,9 @@ sealed class GetDataState extends Equatable {
 
   @override
   List<Map<String, dynamic>> get props => [];
+
+
+  List<List<Map<String, dynamic>>> get notificationProps => [];
 }
 
 final class GetDataInitial extends GetDataState {}
@@ -13,9 +16,11 @@ class GetdataLoading extends GetDataState {}
 
 class GetDataLoaded extends GetDataState {
   final Map<String, dynamic> user;
-  const GetDataLoaded(this.user);
+  final List<Map<String, dynamic>> notification;
+  const GetDataLoaded(this.user, this.notification);
   @override
   List<Map<String, dynamic>> get props => [user];
+  List<List<Map<String, dynamic>>> get notificationProps => [notification];
 }
 
 class GetDataError extends GetDataState {
