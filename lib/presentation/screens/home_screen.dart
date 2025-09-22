@@ -198,63 +198,131 @@ class _HomeScreenState extends State<HomeScreen> {
                     TrackScore(),
                     Column(
                       children: [
-                        Container(
-                          width: screenWidth * 0.4,
-                          height: screenheight * 0.14,
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade300,
-                            borderRadius: BorderRadius.circular(30),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.shade400,
-                                spreadRadius: 2,
-                                blurRadius: 10,
-                                offset: const Offset(0, 4),
-                              ),
-                            ],
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                              left: screenheight * 0.02,
-                              right: screenheight * 0.018,
-                              top: screenheight * 0.01,
-                              bottom: screenheight * 0.008,
-                            ),
-                            child: SingleChildScrollView(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Card(
-                                    elevation: 4,
-                                    color: Colors.grey.shade900,
-                                    shape: CircleBorder(),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(4.0),
-                                      child: Icon(
-                                        Icons.terrain_rounded,
-                                        size: screenheight * 0.032,
-                                        color: Colors.white,
-                                      ),
+                        BlocConsumer<LocationBloc, LocationState>(
+                          listener: (context, state) {},
+                          builder: (context, state) {
+                            if (state is LocationLoaded) {
+                              return Container(
+                                width: screenWidth * 0.4,
+                                height: screenheight * 0.14,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade300,
+                                  borderRadius: BorderRadius.circular(30),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.shade400,
+                                      spreadRadius: 2,
+                                      blurRadius: 10,
+                                      offset: const Offset(0, 4),
+                                    ),
+                                  ],
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                    left: screenheight * 0.02,
+                                    right: screenheight * 0.018,
+                                    top: screenheight * 0.01,
+                                    bottom: screenheight * 0.008,
+                                  ),
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Card(
+                                          elevation: 4,
+                                          color: Colors.grey.shade900,
+                                          shape: CircleBorder(),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(4.0),
+                                            child: Icon(
+                                              Icons.terrain_rounded,
+                                              size: screenheight * 0.032,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                          'area'.tr(),
+                                          style: TextStyle(
+                                            fontSize: screenheight * 0.027,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Text(
+                                          'area_sub'.tr(),
+                                          style: TextStyle(
+                                            fontSize: screenheight * 0.017,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  Text(
-                                    'area'.tr(),
-                                    style: TextStyle(
-                                      fontSize: screenheight * 0.027,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Text(
-                                    'area_sub'.tr(),
-                                    style: TextStyle(
-                                      fontSize: screenheight * 0.017,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                ),
+                              );
+                            }
+                            return Container(
+                              width: screenWidth * 0.4,
+                              height: screenheight * 0.14,
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade300,
+                                borderRadius: BorderRadius.circular(30),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.shade400,
+                                    spreadRadius: 2,
+                                    blurRadius: 10,
+                                    offset: const Offset(0, 4),
                                   ),
                                 ],
                               ),
-                            ),
-                          ),
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                  left: screenheight * 0.02,
+                                  right: screenheight * 0.018,
+                                  top: screenheight * 0.01,
+                                  bottom: screenheight * 0.008,
+                                ),
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Card(
+                                        elevation: 4,
+                                        color: Colors.grey.shade900,
+                                        shape: CircleBorder(),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(4.0),
+                                          child: Icon(
+                                            Icons.terrain_rounded,
+                                            size: screenheight * 0.032,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                        'area'.tr(),
+                                        style: TextStyle(
+                                          fontSize: screenheight * 0.027,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                        width: 20,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
                         ),
                         SizedBox(height: 20),
                         BlocConsumer<LocationBloc, LocationState>(

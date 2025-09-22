@@ -36,7 +36,7 @@
   "hello": "Hello",
   "area": "Area",
   "area_sub": "Safe",
-  "safety": "Safety Score",
+  "safety": "Distance from unsafe area",
   "profile_info": "Personal Information",
   "kyc_info": "KYC Information",
   "setup_contacts": "Setup Emergency Contacts",
