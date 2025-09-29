@@ -5,7 +5,11 @@ class RegisterUseCase {
 
   RegisterUseCase(this.repository);
 
-  Future<void> call(String email, String password, String name) async {
-    return await repository.register(email, password, name);
+  Future<void> call({required String email, required String password, required String name}) async {
+    print(name);
+    print(password);
+    print(email);
+    print('..............usecase');
+    return await repository.register(email: email,password:  password,name:  name);
   }
 }

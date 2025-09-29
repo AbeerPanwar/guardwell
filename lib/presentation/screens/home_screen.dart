@@ -465,20 +465,57 @@ class _HomeScreenState extends State<HomeScreen> {
                             BitmapDescriptor.hueRed,
                           ),
                         );
-                        return GoogleMap(
-                          onMapCreated: _onMapCreated,
-                          initialCameraPosition: CameraPosition(
-                            target: LatLng(
-                              state.position.latitude,
-                              state.position.longitude,
+                        return Stack(
+                          alignment: AlignmentGeometry.topRight,
+                          children: [
+                            GoogleMap(
+                              onMapCreated: _onMapCreated,
+                              initialCameraPosition: CameraPosition(
+                                target: LatLng(
+                                  state.position.latitude,
+                                  state.position.longitude,
+                                ),
+                                zoom: AppConstants.defaultZoom,
+                              ),
+                              markers: {marker},
+                              myLocationEnabled: true,
+                              myLocationButtonEnabled: false,
+                              zoomControlsEnabled: false,
+                              mapToolbarEnabled: false,
                             ),
-                            zoom: AppConstants.defaultZoom,
-                          ),
-                          markers: {marker},
-                          myLocationEnabled: true,
-                          myLocationButtonEnabled: false,
-                          zoomControlsEnabled: false,
-                          mapToolbarEnabled: false,
+                            Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: SizedBox(
+                                width: screenWidth * 0.09,
+                                height: screenheight * 0.05,
+                                child: FloatingActionButton(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadiusGeometry.circular(
+                                      5,
+                                    ),
+                                  ),
+                                  backgroundColor: Colors.grey.shade200,
+                                  onPressed: () {
+                                    _mapController?.animateCamera(
+                                      CameraUpdate.newCameraPosition(
+                                        CameraPosition(
+                                          target: LatLng(
+                                            state.position.latitude,
+                                            state.position.longitude,
+                                          ),
+                                          zoom: AppConstants.defaultZoom,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: Icon(
+                                    Icons.my_location,
+                                    color: Colors.grey.shade900,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         );
                       }
                       return const SizedBox.shrink();

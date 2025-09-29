@@ -17,10 +17,10 @@ class AuthRepositoryImpl implements AuthRepository {
   });
 
   @override
-  Future<void> login(String email, String password) async {
+  Future<void> login({required String email, required String password}) async {
     if (await networkInfo.isConnected) {
       try {
-        final token = await remoteDataSource.login(email, password);
+        final token = await remoteDataSource.login(email: email, password: password);
         await localDataSource.saveToken(token);
       } catch (e) {
         throw ServerFailure(e.toString());
@@ -31,10 +31,10 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<void> register(String email, String password, String name) async {
+  Future<void> register({required String email, required String password, required String name}) async {
     if (await networkInfo.isConnected) {
       try {
-        final token = await remoteDataSource.register(email, password, name);
+        final token = await remoteDataSource.register(email: email,password:  password,name:  name);
         await localDataSource.saveToken(token);
       } catch (e) {
         throw ServerFailure(e.toString());
