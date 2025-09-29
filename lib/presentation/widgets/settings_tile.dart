@@ -16,24 +16,31 @@ class SettingsTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Size screenSize = MediaQuery.of(context).size;
+    final double screenWidth = screenSize.width;
+    final double screenheight = screenSize.height;
     final theme = Theme.of(context);
 
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(12),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8,),
+        padding: const EdgeInsets.symmetric(horizontal: 8),
         child: Row(
           children: [
             Container(
-              height: 50,
-              width: 50,
-              padding: const EdgeInsets.all(10),
+              height: screenheight * 0.054,
+              width: screenheight * 0.054,
+              padding: EdgeInsets.all(screenheight * 0.012),
               decoration: BoxDecoration(
                 color: Colors.green.shade100,
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(screenheight * 0.017),
               ),
-              child: Icon(icon, color: Colors.green.shade800, size: 25),
+              child: Icon(
+                icon,
+                color: Colors.green.shade800,
+                size: screenWidth * 0.0585,
+              ),
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -43,22 +50,29 @@ class SettingsTile extends StatelessWidget {
                   Text(
                     title,
                     style: theme.textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold, fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      fontSize: screenheight * 0.0195,
                     ),
                   ),
                   const SizedBox(height: 2),
                   Text(
                     subtitle,
                     style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.onSurface, fontWeight: FontWeight.w500,fontSize: 14,
+                      color: theme.colorScheme.onSurface,
+                      fontWeight: FontWeight.w500,
+                      fontSize: screenheight * 0.0155,
                     ),
                   ),
                 ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(right: 8,),
-              child: const Icon(Icons.chevron_right, color: Colors.grey, size: 35,),
+              padding: const EdgeInsets.only(right: 8),
+              child: Icon(
+                Icons.chevron_right,
+                color: Colors.grey,
+                size: screenWidth * 0.088,
+              ),
             ),
           ],
         ),

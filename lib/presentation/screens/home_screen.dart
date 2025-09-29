@@ -511,6 +511,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: Icon(
                                     Icons.my_location,
                                     color: Colors.grey.shade900,
+                                    size: 20,
                                   ),
                                 ),
                               ),

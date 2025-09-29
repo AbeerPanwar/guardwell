@@ -19,19 +19,28 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
+    final Size screenSize = MediaQuery.of(context).size;
+    final double screenWidth = screenSize.width;
+    final double screenheight = screenSize.height;
     return Scaffold(
       appBar: AppBar(
-        leadingWidth: 70,
+        leadingWidth: screenheight * 0.075,
         leading: Padding(
-          padding: const EdgeInsets.only(left: 16),
+          padding: EdgeInsets.only(left: screenheight * 0.016),
           child: Card(
             color: Colors.white,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadiusGeometry.all(Radius.circular(10)),
+              borderRadius: BorderRadiusGeometry.all(
+                Radius.circular(screenheight * 0.013),
+              ),
             ),
             elevation: 0.5,
             child: IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.black, size: 22),
+              icon: Icon(
+                Icons.arrow_back,
+                color: Colors.black,
+                size: screenWidth * 0.057,
+              ),
               onPressed: () => Navigator.pop(context),
             ),
           ),
@@ -42,92 +51,112 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: Padding(
         padding: const EdgeInsets.only(left: 16, top: 20),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              'settings'.tr(),
-              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 24),
-            ),
-            SizedBox(height: 30),
-            SettingsTile(
-              icon: Icons.person,
-              title: 'update_profile'.tr(),
-              subtitle: 'update_profile_sub'.tr(),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const ProfilePage()),
-                );
-              },
-            ),
-            SizedBox(height: 30),
-            SettingsTile(
-              icon: Icons.verified_rounded,
-              title: 'kyc_title'.tr(),
-              subtitle: 'kyc_sub_title'.tr(),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const KycVerification(),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'settings'.tr(),
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: screenheight * 0.027,
                   ),
-                );
-              },
-            ),
-            SizedBox(height: 30),
-            SettingsTile(
-              icon: Icons.contacts_rounded,
-              title: 'contact'.tr(),
-              subtitle: 'contact_sub'.tr(),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const ContactManagementScreen(),
-                  ),
-                );
-              },
-            ),
+                ),
+                SizedBox(height: 30),
+                SettingsTile(
+                  icon: Icons.person,
+                  title: 'update_profile'.tr(),
+                  subtitle: 'update_profile_sub'.tr(),
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const ProfilePage(),
+                      ),
+                    );
+                  },
+                ),
+                SizedBox(height: 30),
+                SettingsTile(
+                  icon: Icons.verified_rounded,
+                  title: 'kyc_title'.tr(),
+                  subtitle: 'kyc_sub_title'.tr(),
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const KycVerification(),
+                      ),
+                    );
+                  },
+                ),
+                SizedBox(height: 30),
+                SettingsTile(
+                  icon: Icons.contacts_rounded,
+                  title: 'contact'.tr(),
+                  subtitle: 'contact_sub'.tr(),
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const ContactManagementScreen(),
+                      ),
+                    );
+                  },
+                ),
 
-            SizedBox(height: 30),
-            SettingsTile(
-              icon: Icons.notifications_active,
-              title: 'notification'.tr(),
-              subtitle: 'notification_sub'.tr(),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const NotificationManagement(),
-                  ),
-                );
-              },
+                SizedBox(height: 30),
+                SettingsTile(
+                  icon: Icons.notifications_active,
+                  title: 'notification'.tr(),
+                  subtitle: 'notification_sub'.tr(),
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const NotificationManagement(),
+                      ),
+                    );
+                  },
+                ),
+                SizedBox(height: 30),
+                SettingsTile(
+                  icon: Icons.language_rounded,
+                  title: 'language'.tr(),
+                  subtitle: 'language_sub'.tr(),
+                  onTap: () async {
+                    await Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const LanguageManagementScreen(),
+                      ),
+                    );
+                    setState(() {});
+                  },
+                ),
+                SizedBox(height: 30),
+                // SettingsTile(
+                //   icon: Icons.location_on_rounded,
+                //   title: 'show_my_location'.tr(),
+                //   subtitle: 'show_my_location_sub'.tr(),
+                //   onTap: () {},
+                // ),
+                // SizedBox(height: 30),
+                SettingsTile(
+                  icon: Icons.logout_outlined,
+                  title: 'logout'.tr(),
+                  subtitle: 'logout_sub'.tr(),
+                  onTap: () {
+                    context.read<AuthCubit>().logout();
+                  },
+                ),
+              ],
             ),
-            SizedBox(height: 30),
-            SettingsTile(
-              icon: Icons.language_rounded,
-              title: 'language'.tr(),
-              subtitle: 'language_sub'.tr(),
-              onTap: () async {
-                await Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const LanguageManagementScreen(),
-                  ),
-                );
-                setState(() {});
-              },
-            ),
-            SizedBox(height: 30),
-            // SettingsTile(
-            //   icon: Icons.location_on_rounded,
-            //   title: 'show_my_location'.tr(),
-            //   subtitle: 'show_my_location_sub'.tr(),
-            //   onTap: () {},
-            // ),
-            // SizedBox(height: 30),
-            SettingsTile(
-              icon: Icons.logout_outlined,
-              title: 'logout'.tr(),
-              subtitle: 'logout_sub'.tr(),
-              onTap: () {
-                context.read<AuthCubit>().logout();
-              },
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Text(
+                'Made by⁓ Abeer Panwar',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: screenheight * 0.0155,
+                ),
+              ),
             ),
           ],
         ),
